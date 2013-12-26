@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using JobServiceInterface;
+using TestTechnology.Controller.DTO;
+using TestTechnology.Controller.Interface;
 
-namespace TestClient
+namespace TestTechnology.TestClient
 {
     public class LocalJobManager : IJobCallbackService
     {
