@@ -11,18 +11,30 @@ namespace TestTechnology.Controller.DTO
     public class Job
     {
         [DataMember]
-        public Guid ID { get; set; }
+        public int JobID { get; set; }
 
         [DataMember]
-        public string Name { get; set; }
+        public Nullable<System.DateTime> StartTime { get; set; }
 
         [DataMember]
-        public string ExecutePath { get; set; }
+        public Nullable<System.DateTime> EndTime { get; set; }
 
         [DataMember]
-        public string ExecuteArguments { get; set; }
+        public int Status { get; set; }
 
         [DataMember]
-        public bool Result { get; set; }
+        public string ResultInfo { get; set; }
+
+        [DataMember]
+        public int TaskID { get; set; }
+
+        [DataMember]
+        public string TaskName { get; set; }
+
+        [DataMember]
+        public string TaskExecuteFilePath { get; set; }
+
+        [DataMember]
+        public string TaskArgs { get; set; }
     }
 }

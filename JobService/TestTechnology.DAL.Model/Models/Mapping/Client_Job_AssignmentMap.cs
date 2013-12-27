@@ -3,14 +3,17 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace TestTechnology.DAL.Models.Mapping
 {
-    public class JobAssignmentMap : EntityTypeConfiguration<JobAssignment>
+    public class Client_Job_AssignmentMap : EntityTypeConfiguration<Client_Job_Assignment>
     {
-        public JobAssignmentMap()
+        public Client_Job_AssignmentMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.ClientID, t.JobGroupID });
+            this.HasKey(t => new { t.AssignmentID, t.ClientID, t.JobGroupID });
 
             // Properties
+            this.Property(t => t.AssignmentID)
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+
             this.Property(t => t.ClientID)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -19,14 +22,17 @@ namespace TestTechnology.DAL.Models.Mapping
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
 
             // Table & Column Mappings
-            this.ToTable("JobAssignment");
+            this.ToTable("Client_Job_Assignment");
+            this.Property(t => t.AssignmentID).HasColumnName("AssignmentID");
             this.Property(t => t.ClientID).HasColumnName("ClientID");
             this.Property(t => t.JobGroupID).HasColumnName("JobGroupID");
-            this.Property(t => t.JobAssignmentDateTime).HasColumnName("JobAssignmentDateTime");
 
             // Relationships
+            this.HasRequired(t => t.JobAssigment)
+                .WithMany(t => t.Client_Job_Assignment)
+                .HasForeignKey(d => d.AssignmentID);
             this.HasRequired(t => t.JobGroup)
-                .WithMany(t => t.JobAssignments)
+                .WithMany(t => t.Client_Job_Assignment)
                 .HasForeignKey(d => d.JobGroupID);
 
         }
