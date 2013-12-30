@@ -46,12 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Client_Job_Assignment.cs" />
+    <Compile Include="Models\Client_JobGroup.cs" />
     <Compile Include="Models\Job.cs" />
-    <Compile Include="Models\JobAssigment.cs" />
     <Compile Include="Models\JobGroup.cs" />
-    <Compile Include="Models\Mapping\Client_Job_AssignmentMap.cs" />
-    <Compile Include="Models\Mapping\JobAssigmentMap.cs" />
+    <Compile Include="Models\Mapping\Client_JobGroupMap.cs" />
     <Compile Include="Models\Mapping\JobGroupMap.cs" />
     <Compile Include="Models\Mapping\JobMap.cs" />
     <Compile Include="Models\Mapping\sysdiagramMap.cs" />

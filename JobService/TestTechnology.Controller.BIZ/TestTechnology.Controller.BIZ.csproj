@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80022D83-DF4B-427F-846B-E011B6756BF3}</ProjectGuid>
+    <ProjectGuid>{878488F3-2230-4B62-92E1-30C383309222}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestTechnology.Controller.DTO</RootNamespace>
-    <AssemblyName>TestTechnology.Controller.DTO</AssemblyName>
+    <RootNamespace>TestTechnology.Controller.BIZ</RootNamespace>
+    <AssemblyName>TestTechnology.Controller.BIZ</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,10 +30,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.1.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,9 +45,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Job.cs" />
-    <Compile Include="JobGroup.cs" />
+    <Compile Include="IJobBIZ.cs" />
+    <Compile Include="JobBIZ.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutomapperHelper\AutomapperHelper.csproj">
+      <Project>{e08a3d2e-a463-47f2-a01c-f57c39336582}</Project>
+      <Name>AutomapperHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTechnology.Controller.DTO\TestTechnology.Controller.DTO.csproj">
+      <Project>{80022d83-df4b-427f-846b-e011b6756bf3}</Project>
+      <Name>TestTechnology.Controller.DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTechnology.DAL.Model\TestTechnology.DAL.Model.csproj">
+      <Project>{af982596-168b-4000-84eb-5f6617383371}</Project>
+      <Name>TestTechnology.DAL.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTechnology.DAL\TestTechnology.DAL.csproj">
+      <Project>{0fc078f2-4de8-4528-aea1-905c12a82697}</Project>
+      <Name>TestTechnology.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTechnology.Shared.DTO\TestTechnology.Shared.DTO.csproj">
+      <Project>{27c2b78c-6472-4300-8fcb-dc60f0321b4f}</Project>
+      <Name>TestTechnology.Shared.DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

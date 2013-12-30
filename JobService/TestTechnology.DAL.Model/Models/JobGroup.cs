@@ -7,7 +7,7 @@ namespace TestTechnology.DAL.Models
     {
         public JobGroup()
         {
-            this.Client_Job_Assignment = new List<Client_Job_Assignment>();
+            this.Client_JobGroup = new List<Client_JobGroup>();
             this.Jobs = new List<Job>();
         }
 
@@ -16,7 +16,7 @@ namespace TestTechnology.DAL.Models
         public Nullable<System.DateTime> EndTime { get; set; }
         public int Status { get; set; }
         public int TaskGroupID { get; set; }
-        public virtual ICollection<Client_Job_Assignment> Client_Job_Assignment { get; set; }
+        public virtual ICollection<Client_JobGroup> Client_JobGroup { get; set; }
         public virtual ICollection<Job> Jobs { get; set; }
         public virtual TaskGroup TaskGroup { get; set; }
     }

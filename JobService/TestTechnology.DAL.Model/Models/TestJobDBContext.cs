@@ -16,9 +16,8 @@ namespace TestTechnology.DAL.Models
         {
         }
 
-        public DbSet<Client_Job_Assignment> Client_Job_Assignment { get; set; }
+        public DbSet<Client_JobGroup> Client_JobGroup { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<JobAssigment> JobAssigments { get; set; }
         public DbSet<JobGroup> JobGroups { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<Task> Tasks { get; set; }
@@ -27,9 +26,8 @@ namespace TestTechnology.DAL.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new Client_Job_AssignmentMap());
+            modelBuilder.Configurations.Add(new Client_JobGroupMap());
             modelBuilder.Configurations.Add(new JobMap());
-            modelBuilder.Configurations.Add(new JobAssigmentMap());
             modelBuilder.Configurations.Add(new JobGroupMap());
             modelBuilder.Configurations.Add(new sysdiagramMap());
             modelBuilder.Configurations.Add(new TaskMap());

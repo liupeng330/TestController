@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Data.Entity.Core.Mapping;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 using AutoMapper;
+using TestTechnology.Controller.BIZ;
+using TestTechnology.DAL;
 using TestTechnology.DAL.Models;
+using TestTechnology.Shared.DTO;
 
 namespace ConsoleApplication1
 {
@@ -116,15 +121,18 @@ namespace ConsoleApplication1
 
                 //Person p = Mapper.Map<Person>(pDTO);
 
-                Mapper.CreateMap<PersonDTO, Person>();
-                PersonDTO pDTO = new PersonDTO()
-                {
-                    Name = "LiuPeng",
-                    Id = "123",
-                    //StartTime = DateTime.Now,
-                };
+                //Mapper.CreateMap<PersonDTO, Person>();
+                //PersonDTO pDTO = new PersonDTO()
+                //{
+                //    Name = "LiuPeng",
+                //    Id = "123",
+                //    //StartTime = DateTime.Now,
+                //};
 
-                var p = Mapper.Map<Person>(pDTO);
+                //var p = Mapper.Map<Person>(pDTO);
+
+                IJobBIZ jobBiz = new JobBIZ();
+                var ret = jobBiz.GetUnTakenTopJobsByClientsID("B4C9AA89A77B4B2B8B3D6EAD0681CC13");
             }
         }
     }
@@ -199,5 +207,5 @@ namespace ConsoleApplication1
             return mappingResult as T;
         }
     }
- 
+
 }
