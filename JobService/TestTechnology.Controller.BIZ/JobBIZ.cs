@@ -13,6 +13,7 @@ using TestTechnology.Shared.DTO;
 
 namespace TestTechnology.Controller.BIZ
 {
+    //TODO: Adding log for every methods
     public class JobBIZ : IJobBIZ
     {
         private readonly IJobDataRepository jobDataRepository;
@@ -22,26 +23,36 @@ namespace TestTechnology.Controller.BIZ
             this.jobDataRepository = new JobDataRepository();
         }
 
-        //Get untaken and top jobs, and set it to running
-        public IEnumerable<Job> GetUnTakenTopJobsByClientsID(string clientId)
+        //Get untaken and top jobs, and set it to running, if there is a job that is running on that client, empty array will be returned
+        public JobGroup GetUnTakenTopJobsByClientsID(string clientId)
         {
             //Get running jobs in DB
             if (jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.Running).Any())
             {
                 //There are jobs running in client, so do not return any jobs to client
-                return new List<Job>();
+                return new JobGroup();
             }
 
             //If there is no running jobs in this client, start to query untaken job
             var client_job = jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.UnTaken).FirstOrDefault();
+            if (client_job == null)
+            {
+                return new JobGroup();
+            }
+
+            //Get jobgroup from DB
+            Mapper.CreateMap<TestTechnology.DAL.Models.JobGroup, JobGroup>().ForMember(i => i.Jobs, o => o.Ignore());
+            Mapper.CreateMap<TestTechnology.DAL.Models.TaskGroup, JobGroup>();
+
+            var jobGroupInDB = jobDataRepository.GetJobGroup(client_job.JobGroupID);
+            var taskGroupInDB = jobDataRepository.GetTaskGroupByJobGroupID(client_job.JobGroupID);
+
+            JobGroup jobGroup = EntityMapper.Map<JobGroup>(jobGroupInDB, taskGroupInDB);
+
+            //Get all realted jobs from DB
             List<Job> jobs = new List<Job>();
             try
             {
-                if (client_job == null)
-                {
-                    return jobs;
-                }
-
                 Mapper.CreateMap<TestTechnology.DAL.Models.Job, Job>();
                 Mapper.CreateMap<TestTechnology.DAL.Models.Task, Job>();
 
@@ -54,16 +65,30 @@ namespace TestTechnology.Controller.BIZ
                     var jobForDTO = EntityMapper.Map<Job>(jobInDB, taskInDB);
                     jobs.Add(jobForDTO);
                 }
-                //Set it to running
-                jobDataRepository.UpdateJobAssignmentStatus(client_job.AssignmentID, JobAssignmentStatus.Running);
+
+                //Client will be responseible to set assigment status to running or completed
+                ////Set it to running
+                //jobDataRepository.UpdateJobAssignmentStatus(client_job.AssignmentID, JobAssignmentStatus.Running);
             }
             catch (Exception)
             {
-                //If exception happened, set it back to untaken
-                jobDataRepository.UpdateJobAssignmentStatus(client_job.AssignmentID, JobAssignmentStatus.UnTaken);
+                ////If exception happened, set it back to untaken
+                //jobDataRepository.UpdateJobAssignmentStatus(client_job.AssignmentID, JobAssignmentStatus.UnTaken);
                 throw;
             }
-            return jobs;
+
+            jobGroup.Jobs = jobs;
+            return jobGroup;
+        }
+
+        public void UpdateJobStatus(int jobID, JobStatus status)
+        {
+            jobDataRepository.UpdateJobStatus(jobID, status);
+        }
+
+        public void UploadJobResult(int jobID, string jobResult)
+        {
+            jobDataRepository.UploadJobResult(jobID, jobResult);
         }
     }
 }

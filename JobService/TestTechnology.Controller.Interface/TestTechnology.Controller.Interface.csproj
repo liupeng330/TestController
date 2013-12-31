@@ -53,6 +53,10 @@
       <Project>{80022d83-df4b-427f-846b-e011b6756bf3}</Project>
       <Name>TestTechnology.Controller.DTO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestTechnology.Shared.DTO\TestTechnology.Shared.DTO.csproj">
+      <Project>{27c2b78c-6472-4300-8fcb-dc60f0321b4f}</Project>
+      <Name>TestTechnology.Shared.DTO</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\WCF\Microsoft.VisualStudio.ServiceModel.targets" />

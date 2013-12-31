@@ -10,6 +10,8 @@ namespace TestTechnology.Controller.BIZ
 {
     public interface IJobBIZ
     {
-        IEnumerable<Job> GetUnTakenTopJobsByClientsID(string clientId);
+        JobGroup GetUnTakenTopJobsByClientsID(string clientId);
+        void UpdateJobStatus(int jobID, JobStatus updateStatus);
+        void UploadJobResult(int jobID, string jobResult);
     }
 }

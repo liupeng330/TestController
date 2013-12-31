@@ -11,6 +11,6 @@ namespace TestTechnology.Controller.Interface
     public interface IJobCallbackService
     {
         [OperationContract]
-        void DoTestJobs(IEnumerable<Job> jobs);
+        void DoTestJobs(string clientID, JobGroup jobGroup);
     }
 }

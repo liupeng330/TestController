@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TestTechnology.Controller.BIZ;
 using TestTechnology.Controller.DTO;
 using TestTechnology.Controller.Interface;
 
@@ -13,15 +14,35 @@ namespace TestTechnology.Controller.Service
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class JobService : IJobService
     {
-        public void IsAlive(string ipAddress)
+        private readonly IJobBIZ jobBiz;
+
+        public JobService()
+        {
+            this.jobBiz = new JobBIZ();
+        }
+
+        public void IsAlive(string clientID)
+        {
+        }
+
+        public JobGroup GetUnTakenTopJobsByClientsID(string clientID)
         {
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId);
-            Console.WriteLine(ipAddress+" is calling.");
+            Console.WriteLine(clientID+" is calling.");
             Console.WriteLine();
 
-            Console.WriteLine("Calling " + ipAddress + " to do the job");
-            IJobCallbackService callback = OperationContext.Current.GetCallbackChannel<IJobCallbackService>();
-            callback.DoTestJobs(null);
+            Console.WriteLine("Getting job from DB");
+            return jobBiz.GetUnTakenTopJobsByClientsID(clientID);
+        }
+
+        public void UpdateJobStatus(int jobID, Shared.DTO.JobStatus updateStatus)
+        {
+            jobBiz.UpdateJobStatus(jobID, updateStatus);
+        }
+
+        public void UploadJobResult(int jobID, string jobResult)
+        {
+            throw new NotImplementedException();
         }
     }
 }

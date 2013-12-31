@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TestTechnology.Controller.BIZ\TestTechnology.Controller.BIZ.csproj">
+      <Project>{878488f3-2230-4b62-92e1-30c383309222}</Project>
+      <Name>TestTechnology.Controller.BIZ</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestTechnology.Controller.DTO\TestTechnology.Controller.DTO.csproj">
       <Project>{80022d83-df4b-427f-846b-e011b6756bf3}</Project>
       <Name>TestTechnology.Controller.DTO</Name>
@@ -52,6 +56,10 @@
     <ProjectReference Include="..\TestTechnology.Controller.Interface\TestTechnology.Controller.Interface.csproj">
       <Project>{7c6bea49-23a3-4ff6-b300-f68f67c2bee5}</Project>
       <Name>TestTechnology.Controller.Interface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestTechnology.Shared.DTO\TestTechnology.Shared.DTO.csproj">
+      <Project>{27c2b78c-6472-4300-8fcb-dc60f0321b4f}</Project>
+      <Name>TestTechnology.Shared.DTO</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

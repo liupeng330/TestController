@@ -36,5 +36,22 @@ namespace TestTechnology.Controller.DTO
 
         [DataMember]
         public string TaskArgs { get; set; }
+
+        public override string ToString()
+        {
+            return
+                string.Format(
+                    "JobID: {0}\nStartTime: {1}\nEndTime: {2}\nStatus: {3}\nResultInfo: {4}\nTaskID: {5}\nTaskName: {6}\nTaskExecuteFilePath: {7}\nTaskArgs: {8}\n",
+                    this.JobID,
+                    this.StartTime,
+                    this.EndTime,
+                    this.Status,
+                    this.ResultInfo,
+                    this.TaskID,
+                    this.TaskName,
+                    this.TaskExecuteFilePath,
+                    this.TaskArgs
+                    );
+        }
     }
 }

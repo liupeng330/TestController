@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using TestTechnology.DAL.Models;
 using TestTechnology.Shared.DTO;
 
@@ -35,6 +31,14 @@ namespace TestTechnology.DAL
                           select i;
 
                 return ret.ToArray();
+            }
+        }
+
+        public JobGroup GetJobGroup(int jobGroupID)
+        {
+            using (var db = new TestJobDBContext())
+            {
+                return db.JobGroups.SingleOrDefault(i => i.JobGroupID == jobGroupID);
             }
         }
 
@@ -82,14 +86,73 @@ namespace TestTechnology.DAL
         {
             using (var db = new TestJobDBContext())
             {
-                var jobAssignment = db.Client_JobGroup.Where(i => i.AssignmentID == assignmentID).SingleOrDefault();
+                var jobAssignment = db.Client_JobGroup.SingleOrDefault(i => i.AssignmentID == assignmentID);
                 if (jobAssignment == null)
                 {
                     throw new ArgumentNullException("jobAssignment");
                 }
-
                 jobAssignment.Status = (int) updateStatus;
 
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateJobAssignmentResult(int assignmentID, JobAssignmentResult updateResult)
+        {
+            using (var db = new TestJobDBContext())
+            {
+                var jobAssignment = db.Client_JobGroup.SingleOrDefault(i => i.AssignmentID == assignmentID);
+                if (jobAssignment == null)
+                {
+                    throw new ArgumentNullException("jobAssignment");
+                }
+                jobAssignment.Result = (int) updateResult;
+
+                db.SaveChanges();
+            }
+            
+        }
+
+        public void UpdateJobStatus(int jobID, JobStatus updateStatus)
+        {
+            using (var db = new TestJobDBContext())
+            {
+                var job = db.Jobs.SingleOrDefault(i => i.JobID == jobID);
+                if (job == null)
+                {
+                    throw new ArgumentNullException("job");
+                }
+
+                job.Status = (int) updateStatus;
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateJobGroupStatus(int jobGroupID, JobStatus updateStatus)
+        {
+            using (var db = new TestJobDBContext())
+            {
+                var jobGroup = db.JobGroups.SingleOrDefault(i => i.JobGroupID == jobGroupID);
+                if (jobGroup == null)
+                {
+                    throw new ArgumentNullException("jobGroup");
+                }
+
+                jobGroup.Status = (int) updateStatus;
+                db.SaveChanges();
+            }
+        }
+
+        public void UploadJobResult(int jobID, string jobResult)
+        {
+            using (var db = new TestJobDBContext())
+            {
+                var job = db.Jobs.SingleOrDefault(i => i.JobID == jobID);
+                if (job == null)
+                {
+                    throw new ArgumentNullException("job");
+                }
+                job.ResultInfo = jobResult;
                 db.SaveChanges();
             }
         }

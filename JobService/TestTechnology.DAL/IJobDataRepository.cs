@@ -14,7 +14,12 @@ namespace TestTechnology.DAL
         IEnumerable<TestTechnology.DAL.Models.Task> GetAllTasksByJobGroupID(int jobGroupID);
         IEnumerable<TestTechnology.DAL.Models.Task> GetAllTasksByTaskGroupID(int taskGroupID);
         IEnumerable<Job> GetAllJobs(int jobGroupID);
+        JobGroup GetJobGroup(int jobGroupID);
         TaskGroup GetTaskGroupByJobGroupID(int jobGroupID);
         void UpdateJobAssignmentStatus(int assignmentID, JobAssignmentStatus updateStatus);
+        void UpdateJobAssignmentResult(int assignmentID, JobAssignmentResult updateResult);
+        void UpdateJobStatus(int jobID, JobStatus updateStatus);
+        void UpdateJobGroupStatus(int jobGroupID, JobStatus updateStatus);
+        void UploadJobResult(int jobID, string jobResult);
     }
 }
