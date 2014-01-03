@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using TestClient;
 using TestTechnology.Controller.DTO;
 using TestTechnology.Controller.Interface;
 using TestTechnology.Shared.DTO;
@@ -15,8 +15,8 @@ namespace TestTechnology.TestClient
 {
     public class LocalJobManager : IJobCallbackService
     {
-        private static readonly string currentClientID = ConfigurationManager.AppSettings.Get("ClientId");
-        private static readonly Queue<Job> jobQueue = new Queue<Job>();
+        private static readonly string CurrentClientID = ConfigurationManager.AppSettings.Get("ClientId");
+        private static readonly Queue<Job> JobQueue = new Queue<Job>();
 
         public bool HasJobRunning { get; set; }
 
@@ -28,13 +28,13 @@ namespace TestTechnology.TestClient
         public void ExecuteTestJobs(string clientID, JobGroup jobGroup)
         {
             Console.WriteLine("ClientID=" + clientID);
-            Console.WriteLine("jobGroupID=" + jobGroup.JobGroupID);
+            Console.WriteLine("JobGroupID=" + jobGroup.JobGroupID);
             Console.WriteLine("Get job list, " + Thread.CurrentThread.ManagedThreadId);
 
             //Verify if this job group is for current client
-            if (!string.Equals(currentClientID, clientID, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(CurrentClientID, clientID, StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine(string.Format("Client ID '{0}' is not for current client, drop it!!"));
+                Console.WriteLine(string.Format("Client ID '{0}' is not for current client, drop it!!", clientID));
                 return;
             }
 
@@ -60,7 +60,13 @@ namespace TestTechnology.TestClient
         public bool DoJob(Job job)
         {
             Console.WriteLine(job.ToString());
-            IJobService jobChannel = Program.channelFactory.CreateChannel();
+            if (!File.Exists(job.TaskExecuteFilePath))
+            {
+                Console.WriteLine("The execute file path {0} doesn't exist!!", job.TaskExecuteFilePath);
+                return false;
+            }
+
+            IJobService jobChannel = Program.ChannelFactory.CreateChannel();
             jobChannel.UpdateJobStatus(job.JobID, JobStatus.Pass);
             return true;
         }

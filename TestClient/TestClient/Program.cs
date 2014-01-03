@@ -1,26 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Collections.Specialized;
 using System.Configuration;
+using System.ServiceModel;
+using System.Threading;
 using TestTechnology.Controller.DTO;
-using TestTechnology.Shared.DTO;
-using TestTechnology.TestClient;
 using TestTechnology.Controller.Interface;
 
-namespace TestClient
+namespace TestTechnology.TestClient
 {
     class Program
     {
-        private readonly static LocalJobManager localJobManager = new LocalJobManager();
-        private readonly static InstanceContext callback = new InstanceContext(new LocalJobManager());
-        public static readonly DuplexChannelFactory<IJobService> channelFactory = new DuplexChannelFactory<IJobService>(callback, "JobService");
+        private readonly static LocalJobManager LocalJobManager = new LocalJobManager();
+        private readonly static InstanceContext Callback = new InstanceContext(new LocalJobManager());
+        public static readonly DuplexChannelFactory<IJobService> ChannelFactory = new DuplexChannelFactory<IJobService>(Callback, "JobService");
 
-        private static void Main(string[] args)
+        private static void Main()
         {
+            var connectionManagerDatabaseServers = ConfigurationManager.GetSection("JobReturnValues") as NameValueCollection;
+            if (connectionManagerDatabaseServers != null)
+            {
+                Console.WriteLine(connectionManagerDatabaseServers["copy"]);
+            }
+
             try
             {
                 string clientId = ConfigurationManager.AppSettings.Get("ClientId");
@@ -31,10 +32,8 @@ namespace TestClient
 
                 while (true)
                 {
-                    JobGroup jobGroup = new JobGroup();
-                    InstanceContext callback = new InstanceContext(new LocalJobManager());
-                    IJobService jobChannel = channelFactory.CreateChannel();
-                    if (localJobManager.HasJobRunning)
+                    IJobService jobChannel = ChannelFactory.CreateChannel();
+                    if (LocalJobManager.HasJobRunning)
                     {
                         Console.WriteLine("There is job running on this client!!");
                         Thread.Sleep(5000);
@@ -42,15 +41,15 @@ namespace TestClient
                     }
                     Console.WriteLine("Client Thread ID:" + Thread.CurrentThread.ManagedThreadId);
                     Console.WriteLine(clientId + " is calling JobService");
-                    jobGroup = jobChannel.GetUnTakenTopJobsByClientsID(clientId);
+                    JobGroup jobGroup = jobChannel.GetUnTakenTopJobsByClientsID(clientId);
 
-                    localJobManager.ExecuteTestJobs(clientId, jobGroup);
+                    LocalJobManager.ExecuteTestJobs(clientId, jobGroup);
                     Thread.Sleep(5000);
                 }
             }
             finally
             {
-                channelFactory.Close();
+                ChannelFactory.Close();
             }
         }
 
@@ -64,10 +63,10 @@ namespace TestClient
 
         //    InstanceContext callback = new InstanceContext(new LocalJobManager());
         //    using (
-        //        DuplexChannelFactory<IJobService> channelFactory = new DuplexChannelFactory<IJobService>(callback,
+        //        DuplexChannelFactory<IJobService> ChannelFactory = new DuplexChannelFactory<IJobService>(callback,
         //            "JobService"))
         //    {
-        //        IJobService jobChannel = channelFactory.CreateChannel();
+        //        IJobService jobChannel = ChannelFactory.CreateChannel();
 
         //        while (true)
         //        {
