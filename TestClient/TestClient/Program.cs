@@ -16,12 +16,6 @@ namespace TestTechnology.TestClient
 
         private static void Main()
         {
-            var connectionManagerDatabaseServers = ConfigurationManager.GetSection("JobReturnValues") as NameValueCollection;
-            if (connectionManagerDatabaseServers != null)
-            {
-                Console.WriteLine(connectionManagerDatabaseServers["copy"]);
-            }
-
             try
             {
                 string clientId = ConfigurationManager.AppSettings.Get("ClientId");
