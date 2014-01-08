@@ -38,8 +38,14 @@ namespace TestTechnology.TestClient
                     JobGroup jobGroup = jobChannel.GetUnTakenTopJobsByClientsID(clientId);
 
                     LocalJobManager.ExecuteTestJobs(clientId, jobGroup);
+                    Console.WriteLine();
                     Thread.Sleep(5000);
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
             finally
             {
