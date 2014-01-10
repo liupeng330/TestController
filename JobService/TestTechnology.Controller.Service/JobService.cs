@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using TestTechnology.Controller.BIZ;
 using TestTechnology.Controller.DTO;
 using TestTechnology.Controller.Interface;

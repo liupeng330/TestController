@@ -59,6 +59,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TestTechnology.Controller.BIZ\TestTechnology.Controller.BIZ.csproj">
+      <Project>{878488f3-2230-4b62-92e1-30c383309222}</Project>
+      <Name>TestTechnology.Controller.BIZ</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestTechnology.Controller.DTO\TestTechnology.Controller.DTO.csproj">
       <Project>{80022d83-df4b-427f-846b-e011b6756bf3}</Project>
       <Name>TestTechnology.Controller.DTO</Name>

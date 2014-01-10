@@ -5,6 +5,7 @@ using System.Runtime.Remoting.Proxies;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using AutoMapper;
 using AutomapperHelper;
 using TestTechnology.Controller.DTO;
@@ -16,25 +17,25 @@ namespace TestTechnology.Controller.BIZ
     //TODO: Adding log for every methods
     public class JobBIZ : IJobBIZ
     {
-        private readonly IJobDataRepository jobDataRepository;
+        private readonly IJobDataRepository _jobDataRepository;
 
         public JobBIZ()
         {
-            this.jobDataRepository = new JobDataRepository();
+            this._jobDataRepository = new JobDataRepository();
         }
 
         //Get untaken and top jobs, and set it to running, if there is a job that is running on that client, empty array will be returned
         public JobGroup GetUnTakenTopJobsByClientsID(string clientId)
         {
             //Get running jobs in DB
-            if (jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.Running).Any())
+            if (_jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.Running).Any())
             {
                 //There are jobs running in client, so do not return any jobs to client
                 return new JobGroup();
             }
 
             //If there is no running jobs in this client, start to query untaken job
-            var client_job = jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.UnTaken).FirstOrDefault();
+            var client_job = _jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.UnTaken).FirstOrDefault();
             if (client_job == null)
             {
                 return new JobGroup();
@@ -44,8 +45,8 @@ namespace TestTechnology.Controller.BIZ
             Mapper.CreateMap<TestTechnology.DAL.Models.JobGroup, JobGroup>().ForMember(i => i.Jobs, o => o.Ignore());
             Mapper.CreateMap<TestTechnology.DAL.Models.TaskGroup, JobGroup>();
 
-            var jobGroupInDB = jobDataRepository.GetJobGroup(client_job.JobGroupID);
-            var taskGroupInDB = jobDataRepository.GetTaskGroupByJobGroupID(client_job.JobGroupID);
+            var jobGroupInDB = _jobDataRepository.GetJobGroup(client_job.JobGroupID);
+            var taskGroupInDB = _jobDataRepository.GetTaskGroupByJobGroupID(client_job.JobGroupID);
 
             JobGroup jobGroup = EntityMapper.Map<JobGroup>(jobGroupInDB, taskGroupInDB);
 
@@ -56,8 +57,8 @@ namespace TestTechnology.Controller.BIZ
                 Mapper.CreateMap<TestTechnology.DAL.Models.Job, Job>();
                 Mapper.CreateMap<TestTechnology.DAL.Models.Task, Job>();
 
-                var jobsInDB = jobDataRepository.GetAllJobs(client_job.JobGroupID);
-                var tasksInDB = jobDataRepository.GetAllTasksByJobGroupID(client_job.JobGroupID);
+                var jobsInDB = _jobDataRepository.GetAllJobs(client_job.JobGroupID);
+                var tasksInDB = _jobDataRepository.GetAllTasksByJobGroupID(client_job.JobGroupID);
 
                 foreach (var jobInDB in jobsInDB)
                 {
@@ -83,12 +84,12 @@ namespace TestTechnology.Controller.BIZ
 
         public void UpdateJobStatus(int jobID, JobStatus status)
         {
-            jobDataRepository.UpdateJobStatus(jobID, status);
+            _jobDataRepository.UpdateJobStatus(jobID, status);
         }
 
         public void UploadJobResult(int jobID, string jobResult)
         {
-            jobDataRepository.UploadJobResult(jobID, jobResult);
+            _jobDataRepository.UploadJobResult(jobID, jobResult);
         }
     }
 }

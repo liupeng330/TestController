@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClientStatusPolling.cs" />
     <Compile Include="IJobBIZ.cs" />
     <Compile Include="JobBIZ.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
