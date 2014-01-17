@@ -13,5 +13,6 @@ namespace TestTechnology.Controller.BIZ
         JobGroup GetUnTakenTopJobsByClientsID(string clientId);
         void UpdateJobStatus(int jobID, JobStatus updateStatus);
         void UploadJobResult(int jobID, string jobResult);
+        void UpdateJobGroupStatus(int jobgroupID, JobStatus updateStatus);
     }
 }

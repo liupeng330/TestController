@@ -17,6 +17,9 @@ namespace TestTechnology.Shared.DTO
         Pass,
 
         [EnumMember]
-        Fail
+        Fail,
+
+        [EnumMember]
+        NotRun
     }
 }

@@ -41,25 +41,44 @@ namespace TestTechnology.TestClient
                 return;
             }
 
+            //Set job is running on this client, will block others job to assign to this client
             HasJobRunning = true;
+
             try
             {
-                foreach (var job in jobGroup.Jobs)
+                bool jobgroupResult = true;
+                IJobService jobChannel = Program.ChannelFactory.CreateChannel();
+                var jobArray = jobGroup.Jobs.ToArray();
+                for (int i = 0; i < jobArray.Length; i++)
                 {
-                    bool result = DoJob(job);
+                    bool result = DoJob(jobArray[i]);
                     if (result)
                     {
-                        CommandLineHelper.Pass(string.Format("Pass for Task {0}", job.TaskName));
+                        CommandLineHelper.Pass(string.Format("Pass for Task {0}", jobArray[i].TaskName));
                     }
                     else
                     {
-                        CommandLineHelper.Fail(string.Format("Fail for Task {0}", job.TaskName));
+                        CommandLineHelper.Fail(string.Format("Fail for Task {0}", jobArray[i].TaskName));
+                        CommandLineHelper.Fail("Will ignore other jobs in this jobgroup");
+
+                        //Update other jobs to be NotRun
+                        for (int j = i + 1; j < jobArray.Length; j++)
+                        {
+                            jobChannel.UpdateJobStatus(jobArray[i].JobID, JobStatus.NotRun);
+                        }
+
+                        jobgroupResult = false;
+                        break;
                     }
                 }
-            }
-            catch (Exception)
-            {
 
+                //Update jobgroup status
+                jobChannel.UpdateJobGroupStatus(jobGroup.JobGroupID, JobStatus.Fail);
+            }
+            catch (Exception ex)
+            {
+                CommandLineHelper.Fail(ex.Message);
+                CommandLineHelper.Fail(ex.StackTrace);
                 throw;
             }
             finally
@@ -79,15 +98,16 @@ namespace TestTechnology.TestClient
 
             //Running job
             Console.WriteLine("Start to execute job '{0} {1}'", job.TaskExecuteFilePath, job.TaskArgs);
-            int ret = ProcessHelper.StartProcess(job.TaskExecuteFilePath, job.TaskArgs);
+            string outputResult = string.Empty;
+            int ret = ProcessHelper.StartProcess(job.TaskExecuteFilePath, job.TaskArgs, out outputResult);
 
             //Parse job result
-            bool jobReturnValue = VerifyJobReturnValue(job.TaskExecuteFilePath, ret);
-            Console.WriteLine("Job result is " + jobReturnValue);
+            bool isJobPassed = IsJobPassed(job.TaskExecuteFilePath, ret);
+            Console.WriteLine("Job result is " + isJobPassed);
 
             //Update job status to DB
             IJobService jobChannel = Program.ChannelFactory.CreateChannel();
-            if (jobReturnValue)
+            if (isJobPassed)
             {
                 jobChannel.UpdateJobStatus(job.JobID, JobStatus.Pass);
             }
@@ -95,10 +115,11 @@ namespace TestTechnology.TestClient
             {
                 jobChannel.UpdateJobStatus(job.JobID, JobStatus.Fail);
             }
-            return jobReturnValue;
+            jobChannel.UploadJobResult(job.JobID, outputResult);
+            return isJobPassed;
         }
 
-        private bool VerifyJobReturnValue(string executeFilePath, int returnedValue)
+        private bool IsJobPassed(string executeFilePath, int returnedValue)
         {
             if (ConnectionManagerDatabaseServers == null)
             {

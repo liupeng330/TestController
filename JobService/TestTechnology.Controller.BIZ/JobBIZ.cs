@@ -91,5 +91,10 @@ namespace TestTechnology.Controller.BIZ
         {
             _jobDataRepository.UploadJobResult(jobID, jobResult);
         }
+
+        public void UpdateJobGroupStatus(int jobgroupID, JobStatus updateStatus)
+        {
+            _jobDataRepository.UpdateJobGroupStatus(jobgroupID, updateStatus);
+        }
     }
 }

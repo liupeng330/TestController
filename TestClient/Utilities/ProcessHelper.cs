@@ -9,15 +9,19 @@ namespace TestTechnology.TestClient.Utilities
 {
     public static class ProcessHelper
     {
-        public static int StartProcess(string appFullPath, string args)
+        public static int StartProcess(string appFullPath, string args, out string processOutputString)
         {
             Process process = new Process();
             process.StartInfo.FileName = appFullPath;
             process.StartInfo.Arguments = args;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            processOutputString = string.Empty;
 
             try
             {
                 process.Start();
+                processOutputString = process.StandardOutput.ReadToEnd();
                 process.WaitForExit();
             }
             catch (Exception ex)

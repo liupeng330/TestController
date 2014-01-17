@@ -24,5 +24,8 @@ namespace TestTechnology.Controller.Interface
 
         [OperationContract]
         void UploadJobResult(int jobID, string jobResult);
+
+        [OperationContract]
+        void UpdateJobGroupStatus(int jobGroupID, Shared.DTO.JobStatus updateStatus);
     }
 }

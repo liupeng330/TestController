@@ -19,6 +19,8 @@ namespace TestTechnology.TestClient
             try
             {
                 string clientId = ConfigurationManager.AppSettings.Get("ClientId");
+
+                //Unnecessary codes, clientid will be never equal
                 if (String.IsNullOrEmpty(clientId))
                 {
                     throw new Exception("The client id is empty!!");
@@ -29,15 +31,21 @@ namespace TestTechnology.TestClient
                     IJobService jobChannel = ChannelFactory.CreateChannel();
                     if (LocalJobManager.HasJobRunning)
                     {
-                        Console.WriteLine("There is job running on this client!!");
+                        Console.WriteLine("There is a job running on this client!!");
                         Thread.Sleep(5000);
                         continue;
                     }
                     Console.WriteLine("Client Thread ID:" + Thread.CurrentThread.ManagedThreadId);
-                    Console.WriteLine(clientId + " is calling JobService");
+                    Console.WriteLine(clientId + " is calling JobService to get untaken jobs");
+
                     JobGroup jobGroup = jobChannel.GetUnTakenTopJobsByClientsID(clientId);
 
+                    Console.WriteLine(string.Format(clientId+" got jobgroup ID [{0}]", jobGroup.JobGroupID));
+                    Console.WriteLine(string.Format("Start to execute jobgroup ID [{0}]", jobGroup.JobGroupID));
+
                     LocalJobManager.ExecuteTestJobs(clientId, jobGroup);
+
+                    Console.WriteLine(string.Format("Finish to execute jobgroup ID [{0}]", jobGroup.JobGroupID));
                     Console.WriteLine();
                     Thread.Sleep(5000);
                 }

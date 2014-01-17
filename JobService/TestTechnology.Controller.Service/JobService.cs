@@ -15,11 +15,11 @@ namespace TestTechnology.Controller.Service
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class JobService : IJobService
     {
-        private readonly IJobBIZ jobBiz;
+        private readonly IJobBIZ _jobBiz;
 
         public JobService()
         {
-            this.jobBiz = new JobBIZ();
+            this._jobBiz = new JobBIZ();
         }
 
         public void IsAlive(string clientID)
@@ -33,17 +33,22 @@ namespace TestTechnology.Controller.Service
             Console.WriteLine();
 
             Console.WriteLine("Getting job from DB");
-            return jobBiz.GetUnTakenTopJobsByClientsID(clientID);
+            return _jobBiz.GetUnTakenTopJobsByClientsID(clientID);
         }
 
         public void UpdateJobStatus(int jobID, Shared.DTO.JobStatus updateStatus)
         {
-            jobBiz.UpdateJobStatus(jobID, updateStatus);
+            _jobBiz.UpdateJobStatus(jobID, updateStatus);
         }
 
         public void UploadJobResult(int jobID, string jobResult)
         {
-            throw new NotImplementedException();
+            _jobBiz.UploadJobResult(jobID, jobResult);
+        }
+
+        public void UpdateJobGroupStatus(int jobGroupID, Shared.DTO.JobStatus updateStatus)
+        {
+            _jobBiz.UpdateJobGroupStatus(jobGroupID, updateStatus);
         }
     }
 }
