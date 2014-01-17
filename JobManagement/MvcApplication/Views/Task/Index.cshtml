@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MvcApplication.Models.Task>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskExecuteFilePath)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskArgs)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskExecuteFilePath)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskArgs)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
+        </td>
+    </tr>
+}
+
+</table>

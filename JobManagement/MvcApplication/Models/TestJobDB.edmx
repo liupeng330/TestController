@@ -1,0 +1,503 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestJobDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="TestJobDBModelStoreContainer">
+          <EntitySet Name="Client_JobGroup" EntityType="TestJobDBModel.Store.Client_JobGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Job" EntityType="TestJobDBModel.Store.Job" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="JobGroup" EntityType="TestJobDBModel.Store.JobGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="sysdiagrams" EntityType="TestJobDBModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Task" EntityType="TestJobDBModel.Store.Task" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Task_TaskGroup" EntityType="TestJobDBModel.Store.Task_TaskGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="TaskGroup" EntityType="TestJobDBModel.Store.TaskGroup" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Client_JobGroup_JobGroup" Association="TestJobDBModel.Store.FK_Client_JobGroup_JobGroup">
+            <End Role="JobGroup" EntitySet="JobGroup" />
+            <End Role="Client_JobGroup" EntitySet="Client_JobGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_JobGroup" Association="TestJobDBModel.Store.FK_Job_JobGroup">
+            <End Role="JobGroup" EntitySet="JobGroup" />
+            <End Role="Job" EntitySet="Job" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_Task" Association="TestJobDBModel.Store.FK_Job_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="Job" EntitySet="Job" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobGroup_TaskGroup" Association="TestJobDBModel.Store.FK_JobGroup_TaskGroup">
+            <End Role="TaskGroup" EntitySet="TaskGroup" />
+            <End Role="JobGroup" EntitySet="JobGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TaskGroup_Task" Association="TestJobDBModel.Store.FK_Task_TaskGroup_Task">
+            <End Role="Task" EntitySet="Task" />
+            <End Role="Task_TaskGroup" EntitySet="Task_TaskGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TaskGroup_TaskGroup" Association="TestJobDBModel.Store.FK_Task_TaskGroup_TaskGroup">
+            <End Role="TaskGroup" EntitySet="TaskGroup" />
+            <End Role="Task_TaskGroup" EntitySet="Task_TaskGroup" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client_JobGroup">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="JobGroupID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="Result" Type="int" />
+          <Property Name="StartTime" Type="datetime2" />
+          <Property Name="EndTime" Type="datetime2" />
+          <Property Name="Owner" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="JobID" />
+          </Key>
+          <Property Name="JobID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="datetime2" />
+          <Property Name="EndTime" Type="datetime2" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="ResultInfo" Type="nvarchar(max)" />
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="JobGroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="JobGroup">
+          <Key>
+            <PropertyRef Name="JobGroupID" />
+          </Key>
+          <Property Name="JobGroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="datetime2" />
+          <Property Name="EndTime" Type="datetime2" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="TaskGroupID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="TaskExecuteFilePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TaskArgs" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Task_TaskGroup">
+          <Key>
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="TaskGroupID" />
+          </Key>
+          <Property Name="TaskID" Type="int" Nullable="false" />
+          <Property Name="TaskGroupID" Type="int" Nullable="false" />
+          <Property Name="TaskOrder" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TaskGroup">
+          <Key>
+            <PropertyRef Name="TaskGroupID" />
+          </Key>
+          <Property Name="TaskGroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TaskGroupName" Type="nvarchar" Nullable="false" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Client_JobGroup_JobGroup">
+          <End Role="JobGroup" Type="TestJobDBModel.Store.JobGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Client_JobGroup" Type="TestJobDBModel.Store.Client_JobGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobGroup">
+              <PropertyRef Name="JobGroupID" />
+            </Principal>
+            <Dependent Role="Client_JobGroup">
+              <PropertyRef Name="JobGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_JobGroup">
+          <End Role="JobGroup" Type="TestJobDBModel.Store.JobGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Job" Type="TestJobDBModel.Store.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobGroup">
+              <PropertyRef Name="JobGroupID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="JobGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_Task">
+          <End Role="Task" Type="TestJobDBModel.Store.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Job" Type="TestJobDBModel.Store.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobGroup_TaskGroup">
+          <End Role="TaskGroup" Type="TestJobDBModel.Store.TaskGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="JobGroup" Type="TestJobDBModel.Store.JobGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Principal>
+            <Dependent Role="JobGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TaskGroup_Task">
+          <End Role="Task" Type="TestJobDBModel.Store.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Task_TaskGroup" Type="TestJobDBModel.Store.Task_TaskGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Task_TaskGroup">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TaskGroup_TaskGroup">
+          <End Role="TaskGroup" Type="TestJobDBModel.Store.TaskGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Task_TaskGroup" Type="TestJobDBModel.Store.Task_TaskGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Principal>
+            <Dependent Role="Task_TaskGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestJobDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="TestJobDBEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="Client_JobGroup" EntityType="TestJobDBModel.Client_JobGroup" />
+          <EntitySet Name="Jobs" EntityType="TestJobDBModel.Job" />
+          <EntitySet Name="JobGroups" EntityType="TestJobDBModel.JobGroup" />
+          <EntitySet Name="sysdiagrams" EntityType="TestJobDBModel.sysdiagram" />
+          <EntitySet Name="Tasks" EntityType="TestJobDBModel.Task" />
+          <EntitySet Name="Task_TaskGroup" EntityType="TestJobDBModel.Task_TaskGroup" />
+          <EntitySet Name="TaskGroups" EntityType="TestJobDBModel.TaskGroup" />
+          <AssociationSet Name="FK_Client_JobGroup_JobGroup" Association="TestJobDBModel.FK_Client_JobGroup_JobGroup">
+            <End Role="JobGroup" EntitySet="JobGroups" />
+            <End Role="Client_JobGroup" EntitySet="Client_JobGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_JobGroup" Association="TestJobDBModel.FK_Job_JobGroup">
+            <End Role="JobGroup" EntitySet="JobGroups" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Job_Task" Association="TestJobDBModel.FK_Job_Task">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_JobGroup_TaskGroup" Association="TestJobDBModel.FK_JobGroup_TaskGroup">
+            <End Role="TaskGroup" EntitySet="TaskGroups" />
+            <End Role="JobGroup" EntitySet="JobGroups" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TaskGroup_Task" Association="TestJobDBModel.FK_Task_TaskGroup_Task">
+            <End Role="Task" EntitySet="Tasks" />
+            <End Role="Task_TaskGroup" EntitySet="Task_TaskGroup" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_TaskGroup_TaskGroup" Association="TestJobDBModel.FK_Task_TaskGroup_TaskGroup">
+            <End Role="TaskGroup" EntitySet="TaskGroups" />
+            <End Role="Task_TaskGroup" EntitySet="Task_TaskGroup" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client_JobGroup">
+          <Key>
+            <PropertyRef Name="AssignmentID" />
+          </Key>
+          <Property Name="AssignmentID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="ClientID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="JobGroupID" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="Result" Type="Int32" />
+          <Property Name="StartTime" Type="DateTime" Precision="7" />
+          <Property Name="EndTime" Type="DateTime" Precision="7" />
+          <Property Name="Owner" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="JobGroup" Relationship="TestJobDBModel.FK_Client_JobGroup_JobGroup" FromRole="Client_JobGroup" ToRole="JobGroup" />
+        </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="JobID" />
+          </Key>
+          <Property Name="JobID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Precision="7" />
+          <Property Name="EndTime" Type="DateTime" Precision="7" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="ResultInfo" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="JobGroupID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="JobGroup" Relationship="TestJobDBModel.FK_Job_JobGroup" FromRole="Job" ToRole="JobGroup" />
+          <NavigationProperty Name="Task" Relationship="TestJobDBModel.FK_Job_Task" FromRole="Job" ToRole="Task" />
+        </EntityType>
+        <EntityType Name="JobGroup">
+          <Key>
+            <PropertyRef Name="JobGroupID" />
+          </Key>
+          <Property Name="JobGroupID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Precision="7" />
+          <Property Name="EndTime" Type="DateTime" Precision="7" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="TaskGroupID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client_JobGroup" Relationship="TestJobDBModel.FK_Client_JobGroup_JobGroup" FromRole="JobGroup" ToRole="Client_JobGroup" />
+          <NavigationProperty Name="Jobs" Relationship="TestJobDBModel.FK_Job_JobGroup" FromRole="JobGroup" ToRole="Job" />
+          <NavigationProperty Name="TaskGroup" Relationship="TestJobDBModel.FK_JobGroup_TaskGroup" FromRole="JobGroup" ToRole="TaskGroup" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="TaskID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TaskExecuteFilePath" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="TaskArgs" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Jobs" Relationship="TestJobDBModel.FK_Job_Task" FromRole="Task" ToRole="Job" />
+          <NavigationProperty Name="Task_TaskGroup" Relationship="TestJobDBModel.FK_Task_TaskGroup_Task" FromRole="Task" ToRole="Task_TaskGroup" />
+        </EntityType>
+        <EntityType Name="Task_TaskGroup">
+          <Key>
+            <PropertyRef Name="TaskID" />
+            <PropertyRef Name="TaskGroupID" />
+          </Key>
+          <Property Name="TaskID" Type="Int32" Nullable="false" />
+          <Property Name="TaskGroupID" Type="Int32" Nullable="false" />
+          <Property Name="TaskOrder" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Task" Relationship="TestJobDBModel.FK_Task_TaskGroup_Task" FromRole="Task_TaskGroup" ToRole="Task" />
+          <NavigationProperty Name="TaskGroup" Relationship="TestJobDBModel.FK_Task_TaskGroup_TaskGroup" FromRole="Task_TaskGroup" ToRole="TaskGroup" />
+        </EntityType>
+        <EntityType Name="TaskGroup">
+          <Key>
+            <PropertyRef Name="TaskGroupID" />
+          </Key>
+          <Property Name="TaskGroupID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="TaskGroupName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="JobGroups" Relationship="TestJobDBModel.FK_JobGroup_TaskGroup" FromRole="TaskGroup" ToRole="JobGroup" />
+          <NavigationProperty Name="Task_TaskGroup" Relationship="TestJobDBModel.FK_Task_TaskGroup_TaskGroup" FromRole="TaskGroup" ToRole="Task_TaskGroup" />
+        </EntityType>
+        <Association Name="FK_Client_JobGroup_JobGroup">
+          <End Role="JobGroup" Type="TestJobDBModel.JobGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Client_JobGroup" Type="TestJobDBModel.Client_JobGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobGroup">
+              <PropertyRef Name="JobGroupID" />
+            </Principal>
+            <Dependent Role="Client_JobGroup">
+              <PropertyRef Name="JobGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_JobGroup">
+          <End Role="JobGroup" Type="TestJobDBModel.JobGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Job" Type="TestJobDBModel.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="JobGroup">
+              <PropertyRef Name="JobGroupID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="JobGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Job_Task">
+          <End Role="Task" Type="TestJobDBModel.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Job" Type="TestJobDBModel.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_JobGroup_TaskGroup">
+          <End Role="TaskGroup" Type="TestJobDBModel.TaskGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="JobGroup" Type="TestJobDBModel.JobGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Principal>
+            <Dependent Role="JobGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TaskGroup_Task">
+          <End Role="Task" Type="TestJobDBModel.Task" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Task_TaskGroup" Type="TestJobDBModel.Task_TaskGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Task">
+              <PropertyRef Name="TaskID" />
+            </Principal>
+            <Dependent Role="Task_TaskGroup">
+              <PropertyRef Name="TaskID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_TaskGroup_TaskGroup">
+          <End Role="TaskGroup" Type="TestJobDBModel.TaskGroup" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Task_TaskGroup" Type="TestJobDBModel.Task_TaskGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Principal>
+            <Dependent Role="Task_TaskGroup">
+              <PropertyRef Name="TaskGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestJobDBModelStoreContainer" CdmEntityContainer="TestJobDBEntities">
+          <EntitySetMapping Name="Client_JobGroup">
+            <EntityTypeMapping TypeName="TestJobDBModel.Client_JobGroup">
+              <MappingFragment StoreEntitySet="Client_JobGroup">
+                <ScalarProperty Name="AssignmentID" ColumnName="AssignmentID" />
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="JobGroupID" ColumnName="JobGroupID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Jobs">
+            <EntityTypeMapping TypeName="TestJobDBModel.Job">
+              <MappingFragment StoreEntitySet="Job">
+                <ScalarProperty Name="JobID" ColumnName="JobID" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="ResultInfo" ColumnName="ResultInfo" />
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="JobGroupID" ColumnName="JobGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="JobGroups">
+            <EntityTypeMapping TypeName="TestJobDBModel.JobGroup">
+              <MappingFragment StoreEntitySet="JobGroup">
+                <ScalarProperty Name="JobGroupID" ColumnName="JobGroupID" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="TaskGroupID" ColumnName="TaskGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TestJobDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="TestJobDBModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="TaskExecuteFilePath" ColumnName="TaskExecuteFilePath" />
+                <ScalarProperty Name="TaskArgs" ColumnName="TaskArgs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Task_TaskGroup">
+            <EntityTypeMapping TypeName="TestJobDBModel.Task_TaskGroup">
+              <MappingFragment StoreEntitySet="Task_TaskGroup">
+                <ScalarProperty Name="TaskID" ColumnName="TaskID" />
+                <ScalarProperty Name="TaskGroupID" ColumnName="TaskGroupID" />
+                <ScalarProperty Name="TaskOrder" ColumnName="TaskOrder" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaskGroups">
+            <EntityTypeMapping TypeName="TestJobDBModel.TaskGroup">
+              <MappingFragment StoreEntitySet="TaskGroup">
+                <ScalarProperty Name="TaskGroupID" ColumnName="TaskGroupID" />
+                <ScalarProperty Name="TaskGroupName" ColumnName="TaskGroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

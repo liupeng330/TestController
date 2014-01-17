@@ -1,0 +1,22 @@
+﻿@model MvcApplication.Models.TaskGroup
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>TaskGroup</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TaskGroupName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TaskGroupName)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TaskGroupID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

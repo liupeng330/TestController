@@ -1,0 +1,36 @@
+﻿@model MvcApplication.Models.Task
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>Task</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TaskName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TaskName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TaskExecuteFilePath)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TaskExecuteFilePath)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.TaskArgs)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.TaskArgs)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.TaskID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
