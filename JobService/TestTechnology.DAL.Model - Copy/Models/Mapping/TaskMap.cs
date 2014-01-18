@@ -18,6 +18,9 @@ namespace TestTechnology.DAL.Models.Mapping
             this.Property(t => t.TaskExecuteFilePath)
                 .IsRequired();
 
+            this.Property(t => t.TaskArgs)
+                .HasMaxLength(50);
+
             // Table & Column Mappings
             this.ToTable("Task");
             this.Property(t => t.TaskID).HasColumnName("TaskID");
