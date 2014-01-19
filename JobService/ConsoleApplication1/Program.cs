@@ -131,8 +131,6 @@ namespace ConsoleApplication1
 
                 //var p = Mapper.Map<Person>(pDTO);
 
-                IJobBIZ jobBiz = new JobBIZ();
-                var ret = jobBiz.GetUnTakenTopJobsByClientsID("B4C9AA89A77B4B2B8B3D6EAD0681CC13");
             }
         }
     }

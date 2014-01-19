@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Threading;
 using TestTechnology.Controller.DTO;
 using TestTechnology.Controller.Interface;
+using TestTechnology.Shared.DTO;
 
 namespace TestTechnology.TestClient
 {
@@ -16,49 +17,69 @@ namespace TestTechnology.TestClient
 
         private static void Main()
         {
-            try
+            string clientId = ConfigurationManager.AppSettings.Get("ClientId");
+
+            //Unnecessary codes, clientid will be never equal
+            if (String.IsNullOrEmpty(clientId))
             {
-                string clientId = ConfigurationManager.AppSettings.Get("ClientId");
+                throw new Exception("The client id is empty!!");
+            }
 
-                //Unnecessary codes, clientid will be never equal
-                if (String.IsNullOrEmpty(clientId))
+            while (true)
+            {
+                IJobService jobChannel = ChannelFactory.CreateChannel();
+                int assignmentId = -1;
+                bool jobGroupResult = false;
+                try
                 {
-                    throw new Exception("The client id is empty!!");
-                }
-
-                while (true)
-                {
-                    IJobService jobChannel = ChannelFactory.CreateChannel();
                     if (LocalJobManager.HasJobRunning)
                     {
                         Console.WriteLine("There is a job running on this client!!");
                         Thread.Sleep(5000);
                         continue;
                     }
+
                     Console.WriteLine("Client Thread ID:" + Thread.CurrentThread.ManagedThreadId);
                     Console.WriteLine(clientId + " is calling JobService to get untaken jobs");
 
-                    JobGroup jobGroup = jobChannel.GetUnTakenTopJobsByClientsID(clientId);
+                    JobGroup jobGroup;
+                    if (jobChannel.GetUnTakenTopJobsByClientsId(clientId, out jobGroup, out assignmentId))
+                    {
+                        Console.WriteLine("Update job assignment id [{0}] status to be running", assignmentId);
+                        jobChannel.UpdateJobAssignmentStatus(assignmentId, JobAssignmentStatus.Running);
 
-                    Console.WriteLine(string.Format(clientId+" got jobgroup ID [{0}]", jobGroup.JobGroupID));
-                    Console.WriteLine(string.Format("Start to execute jobgroup ID [{0}]", jobGroup.JobGroupID));
+                        Console.WriteLine(clientId + " got jobgroup ID [{0}]", jobGroup.JobGroupID);
+                        Console.WriteLine("Start to execute jobgroup ID [{0}]", jobGroup.JobGroupID);
 
-                    LocalJobManager.ExecuteTestJobs(clientId, jobGroup);
+                        jobGroupResult = LocalJobManager.ExecuteTestJobs(clientId, jobGroup);
 
-                    Console.WriteLine(string.Format("Finish to execute jobgroup ID [{0}]", jobGroup.JobGroupID));
-                    Console.WriteLine();
+                        Console.WriteLine("Finish to execute jobgroup ID [{0}]", jobGroup.JobGroupID);
+                        Console.WriteLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine("These are no any jobs assigned to this client, will waiting...");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
+                }
+                finally
+                {
+                    if (assignmentId != -1)
+                    {
+                        jobChannel.UpdateJobAssignmentStatus(assignmentId, JobAssignmentStatus.Completed);
+                        Console.WriteLine("Update job assignment id [{0}] status to be completed", assignmentId);
+
+                        jobChannel.UpdateJobAssignmentResult(assignmentId, jobGroupResult?JobAssignmentResult.Pass : JobAssignmentResult.Fail);
+                        Console.WriteLine("Update job assignment id [{0}] result to be " + (jobGroupResult ? "passed" : "failed"), assignmentId);
+                    }
                     Thread.Sleep(5000);
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-            }
-            finally
-            {
-                ChannelFactory.Close();
-            }
+            ((IDisposable)ChannelFactory).Dispose();
         }
 
         //private static void Main(string[] args)

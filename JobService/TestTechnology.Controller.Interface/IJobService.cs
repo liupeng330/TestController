@@ -14,18 +14,24 @@ namespace TestTechnology.Controller.Interface
     public interface IJobService
     {
         [OperationContract]
-        void IsAlive(string clientID);
+        void IsAlive(string clientId);
 
         [OperationContract]
-        JobGroup GetUnTakenTopJobsByClientsID(string clientID);
+        bool GetUnTakenTopJobsByClientsId(string clientId, out JobGroup jobGroup, out int assignmentId);
 
         [OperationContract]
-        void UpdateJobStatus(int jobID, JobStatus updateStatus);
+        void UpdateJobStatus(int jobId, JobStatus updateStatus);
 
         [OperationContract]
-        void UploadJobResult(int jobID, string jobResult);
+        void UploadJobResult(int jobId, string jobResult);
 
         [OperationContract]
-        void UpdateJobGroupStatus(int jobGroupID, Shared.DTO.JobStatus updateStatus);
+        void UpdateJobGroupStatus(int jobGroupId, Shared.DTO.JobStatus updateStatus);
+
+        [OperationContract]
+        void UpdateJobAssignmentStatus(int assignmentId, JobAssignmentStatus updateStatus);
+
+        [OperationContract]
+        void UpdateJobAssignmentResult(int assignmentId, JobAssignmentResult updateResult);
     }
 }

@@ -25,21 +25,27 @@ namespace TestTechnology.Controller.BIZ
         }
 
         //Get untaken and top jobs, and set it to running, if there is a job that is running on that client, empty array will be returned
-        public JobGroup GetUnTakenTopJobsByClientsID(string clientId)
+        public bool GetUnTakenTopJobsByClientsID(string clientId, out JobGroup jobGroup, out int assignmentId)
         {
             //Get running jobs in DB
             if (_jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.Running).Any())
             {
                 //There are jobs running in client, so do not return any jobs to client
-                return new JobGroup();
+                assignmentId = -1;
+                jobGroup = new JobGroup();
+                return false;
             }
 
             //If there is no running jobs in this client, start to query untaken job
             var client_job = _jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.UnTaken).FirstOrDefault();
             if (client_job == null)
             {
-                return new JobGroup();
+                assignmentId = -1;
+                jobGroup = new JobGroup();
+                return false;
+
             }
+            assignmentId = client_job.AssignmentID;
 
             //Get jobgroup from DB
             Mapper.CreateMap<TestTechnology.DAL.Models.JobGroup, JobGroup>().ForMember(i => i.Jobs, o => o.Ignore());
@@ -48,7 +54,7 @@ namespace TestTechnology.Controller.BIZ
             var jobGroupInDB = _jobDataRepository.GetJobGroup(client_job.JobGroupID);
             var taskGroupInDB = _jobDataRepository.GetTaskGroupByJobGroupID(client_job.JobGroupID);
 
-            JobGroup jobGroup = EntityMapper.Map<JobGroup>(jobGroupInDB, taskGroupInDB);
+            jobGroup = EntityMapper.Map<JobGroup>(jobGroupInDB, taskGroupInDB);
 
             //Get all realted jobs from DB
             List<Job> jobs = new List<Job>();
@@ -79,22 +85,32 @@ namespace TestTechnology.Controller.BIZ
             }
 
             jobGroup.Jobs = jobs;
-            return jobGroup;
+            return true;
         }
 
-        public void UpdateJobStatus(int jobID, JobStatus status)
+        public void UpdateJobStatus(int jobId, JobStatus status)
         {
-            _jobDataRepository.UpdateJobStatus(jobID, status);
+            _jobDataRepository.UpdateJobStatus(jobId, status);
         }
 
-        public void UploadJobResult(int jobID, string jobResult)
+        public void UploadJobResult(int jobId, string jobResult)
         {
-            _jobDataRepository.UploadJobResult(jobID, jobResult);
+            _jobDataRepository.UploadJobResult(jobId, jobResult);
         }
 
-        public void UpdateJobGroupStatus(int jobgroupID, JobStatus updateStatus)
+        public void UpdateJobGroupStatus(int jobgroupId, JobStatus updateStatus)
         {
-            _jobDataRepository.UpdateJobGroupStatus(jobgroupID, updateStatus);
+            _jobDataRepository.UpdateJobGroupStatus(jobgroupId, updateStatus);
+        }
+
+        public void UpdateJobAssignmentStatus(int assignmentId, JobAssignmentStatus updateStatus)
+        {
+            _jobDataRepository.UpdateJobAssignmentStatus(assignmentId, updateStatus);
+        }
+
+        public void UpdateJobAssignmentResult(int assignmentId, JobAssignmentResult updateResult)
+        {
+            _jobDataRepository.UpdateJobAssignmentResult(assignmentId, updateResult);
         }
     }
 }

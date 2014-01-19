@@ -28,7 +28,7 @@ namespace TestTechnology.TestClient
 
         }
 
-        public void ExecuteTestJobs(string clientID, JobGroup jobGroup)
+        public bool ExecuteTestJobs(string clientID, JobGroup jobGroup)
         {
             Console.WriteLine("ClientID = " + clientID);
             Console.WriteLine("JobGroupID = " + jobGroup.JobGroupID);
@@ -38,16 +38,15 @@ namespace TestTechnology.TestClient
             if (!string.Equals(CurrentClientID, clientID, StringComparison.OrdinalIgnoreCase))
             {
                 Console.WriteLine(string.Format("Client ID '{0}' is not for current client, drop it!!", clientID));
-                return;
+                return false;
             }
 
             //Set job is running on this client, will block others job to assign to this client
             HasJobRunning = true;
-
+            IJobService jobChannel = Program.ChannelFactory.CreateChannel();
+            bool jobgroupResult = true;
             try
             {
-                bool jobgroupResult = true;
-                IJobService jobChannel = Program.ChannelFactory.CreateChannel();
                 var jobArray = jobGroup.Jobs.ToArray();
                 for (int i = 0; i < jobArray.Length; i++)
                 {
@@ -64,7 +63,7 @@ namespace TestTechnology.TestClient
                         //Update other jobs to be NotRun
                         for (int j = i + 1; j < jobArray.Length; j++)
                         {
-                            jobChannel.UpdateJobStatus(jobArray[i].JobID, JobStatus.NotRun);
+                            jobChannel.UpdateJobStatus(jobArray[j].JobID, JobStatus.NotRun);
                         }
 
                         jobgroupResult = false;
@@ -73,18 +72,20 @@ namespace TestTechnology.TestClient
                 }
 
                 //Update jobgroup status
-                jobChannel.UpdateJobGroupStatus(jobGroup.JobGroupID, JobStatus.Fail);
+                jobChannel.UpdateJobGroupStatus(jobGroup.JobGroupID, jobgroupResult ? JobStatus.Pass : JobStatus.Fail);
             }
             catch (Exception ex)
             {
                 CommandLineHelper.Fail(ex.Message);
                 CommandLineHelper.Fail(ex.StackTrace);
+                jobChannel.UpdateJobGroupStatus(jobGroup.JobGroupID, JobStatus.NotRun);
                 throw;
             }
             finally
             {
                 HasJobRunning = false;
             }
+            return jobgroupResult;
         }
 
         public bool DoJob(Job job)
@@ -98,7 +99,7 @@ namespace TestTechnology.TestClient
 
             //Running job
             Console.WriteLine("Start to execute job '{0} {1}'", job.TaskExecuteFilePath, job.TaskArgs);
-            string outputResult = string.Empty;
+            string outputResult;
             int ret = ProcessHelper.StartProcess(job.TaskExecuteFilePath, job.TaskArgs, out outputResult);
 
             //Parse job result
@@ -107,14 +108,7 @@ namespace TestTechnology.TestClient
 
             //Update job status to DB
             IJobService jobChannel = Program.ChannelFactory.CreateChannel();
-            if (isJobPassed)
-            {
-                jobChannel.UpdateJobStatus(job.JobID, JobStatus.Pass);
-            }
-            else
-            {
-                jobChannel.UpdateJobStatus(job.JobID, JobStatus.Fail);
-            }
+            jobChannel.UpdateJobStatus(job.JobID, isJobPassed? JobStatus.Pass : JobStatus.Fail);
             jobChannel.UploadJobResult(job.JobID, outputResult);
             return isJobPassed;
         }

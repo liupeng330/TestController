@@ -10,9 +10,11 @@ namespace TestTechnology.Controller.BIZ
 {
     public interface IJobBIZ
     {
-        JobGroup GetUnTakenTopJobsByClientsID(string clientId);
-        void UpdateJobStatus(int jobID, JobStatus updateStatus);
-        void UploadJobResult(int jobID, string jobResult);
-        void UpdateJobGroupStatus(int jobgroupID, JobStatus updateStatus);
+        bool GetUnTakenTopJobsByClientsID(string clientId, out JobGroup jobGroup, out int assignmentId);
+        void UpdateJobStatus(int jobId, JobStatus updateStatus);
+        void UploadJobResult(int jobId, string jobResult);
+        void UpdateJobGroupStatus(int jobgroupId, JobStatus updateStatus);
+        void UpdateJobAssignmentStatus(int assignmentId, JobAssignmentStatus updateStatus);
+        void UpdateJobAssignmentResult(int assignmentId, JobAssignmentResult updateResult);
     }
 }
