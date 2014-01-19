@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Specialized;
 using System.Configuration;
 using System.ServiceModel;
 using System.Threading;
@@ -81,39 +80,5 @@ namespace TestTechnology.TestClient
             }
             ((IDisposable)ChannelFactory).Dispose();
         }
-
-        //private static void Main(string[] args)
-        //{
-        //    string clientId = ConfigurationManager.AppSettings.Get("ClientId");
-        //    if (String.IsNullOrEmpty(clientId))
-        //    {
-        //        throw new Exception("The client id is empty!!");
-        //    }
-
-        //    InstanceContext callback = new InstanceContext(new LocalJobManager());
-        //    using (
-        //        DuplexChannelFactory<IJobService> ChannelFactory = new DuplexChannelFactory<IJobService>(callback,
-        //            "JobService"))
-        //    {
-        //        IJobService jobChannel = ChannelFactory.CreateChannel();
-
-        //        while (true)
-        //        {
-        //            if (localJobManager.HasJobRunning)
-        //            {
-        //                Console.WriteLine("There is job running on this client!!");
-        //                Thread.Sleep(5000);
-        //                continue;
-        //            }
-        //            Console.WriteLine("Client Thread ID:" + Thread.CurrentThread.ManagedThreadId);
-        //            Console.WriteLine(clientId + " is calling JobService");
-        //            var jobGroup = jobChannel.GetUnTakenTopJobsByClientsID(clientId);
-
-        //            localJobManager.ExecuteTestJobs(clientId, jobGroup);
-
-        //            jobChannel.UpdateJobStatus(1, JobStatus.Pass);
-        //        }
-        //    }
-        //}
     }
 }

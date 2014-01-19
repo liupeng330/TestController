@@ -1,0 +1,7 @@
+This request operation sent to http://localhost:3721/jobservice did not receive
+a reply within the configured timeout (00:01:00).  The time allotted to this ope
+ration may have been a portion of a longer timeout.  This may be because the ser
+vice is still processing the operation or because the service was unable to send
+ a reply message.  Please consider increasing the operation timeout (by casting
+the channel/proxy to IContextChannel and setting the OperationTimeout property)
+and ensure that the service is able to connect to the client.
