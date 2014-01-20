@@ -33,5 +33,8 @@ namespace TestTechnology.Controller.Interface
 
         [OperationContract]
         void UpdateJobAssignmentResult(int assignmentId, JobAssignmentResult updateResult);
+
+        [OperationContract]
+        void UpdateJobEndTime(int jobId, DateTime endTime);
     }
 }

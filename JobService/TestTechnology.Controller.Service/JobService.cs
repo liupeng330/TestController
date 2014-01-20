@@ -60,5 +60,10 @@ namespace TestTechnology.Controller.Service
             Console.WriteLine("Getting job from DB");
             return _jobBiz.GetUnTakenTopJobsByClientsID(clientId,out jobGroup, out assignmentId);
         }
+
+        public void UpdateJobEndTime(int jobId, DateTime endTime)
+        {
+            _jobBiz.UpdateJobEndTime(jobId, endTime);
+        }
     }
 }

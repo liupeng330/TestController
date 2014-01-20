@@ -156,5 +156,20 @@ namespace TestTechnology.DAL
                 db.SaveChanges();
             }
         }
+
+        public void UpdateJobEndTime(int jobID, DateTime endTime)
+        {
+            using (var db = new TestJobDBContext())
+            {
+                var job = db.Jobs.SingleOrDefault(i => i.JobID == jobID);
+                if (job == null)
+                {
+                    throw new ArgumentNullException("job");
+                }
+
+                job.EndTime = endTime;
+                db.SaveChanges();
+            }
+        }
     }
 }

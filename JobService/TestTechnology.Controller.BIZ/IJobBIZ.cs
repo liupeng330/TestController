@@ -12,6 +12,7 @@ namespace TestTechnology.Controller.BIZ
     {
         bool GetUnTakenTopJobsByClientsID(string clientId, out JobGroup jobGroup, out int assignmentId);
         void UpdateJobStatus(int jobId, JobStatus updateStatus);
+        void UpdateJobEndTime(int jobId, DateTime endTime);
         void UploadJobResult(int jobId, string jobResult);
         void UpdateJobGroupStatus(int jobgroupId, JobStatus updateStatus);
         void UpdateJobAssignmentStatus(int assignmentId, JobAssignmentStatus updateStatus);

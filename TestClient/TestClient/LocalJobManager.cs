@@ -4,10 +4,7 @@ using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.ServiceModel;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using TestTechnology.Controller.DTO;
 using TestTechnology.Controller.Interface;
 using TestTechnology.Shared.DTO;
@@ -110,6 +107,7 @@ namespace TestTechnology.TestClient
             IJobService jobChannel = Program.ChannelFactory.CreateChannel();
             jobChannel.UpdateJobStatus(job.JobID, isJobPassed? JobStatus.Pass : JobStatus.Fail);
             jobChannel.UploadJobResult(job.JobID, outputResult);
+            jobChannel.UpdateJobEndTime(job.JobID, DateTime.Now);
             return isJobPassed;
         }
 

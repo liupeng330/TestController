@@ -112,5 +112,10 @@ namespace TestTechnology.Controller.BIZ
         {
             _jobDataRepository.UpdateJobAssignmentResult(assignmentId, updateResult);
         }
+
+        public void UpdateJobEndTime(int jobId, DateTime endTime)
+        {
+            _jobDataRepository.UpdateJobEndTime(jobId, endTime);
+        }
     }
 }
