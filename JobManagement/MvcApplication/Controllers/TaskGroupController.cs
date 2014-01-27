@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 using MvcApplication.Models;
 
 namespace MvcApplication.Controllers
@@ -75,6 +76,7 @@ namespace MvcApplication.Controllers
             TaskGroupAndAllTasksModel taskGroupAndAllTasksModel = new TaskGroupAndAllTasksModel
             {
                 TaskGroupID =  id,
+                TaskGroupName =  taskgroup.TaskGroupName,
                 TaskGroupRelatedTasks = tasks,
                 AllTasks = db.Tasks.ToList(),
             };
@@ -147,7 +149,9 @@ namespace MvcApplication.Controllers
 
             db.Task_TaskGroup.Add(task_taskGroup);
             db.SaveChanges();
-            return RedirectToAction("Index");
+
+            //refresh Edit page for this added task into taskgroup
+            return RedirectToAction("Edit", new {id = groupId});
         }
 
         protected override void Dispose(bool disposing)
