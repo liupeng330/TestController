@@ -11,7 +11,6 @@ using System.Data.Entity;
 using AutoMapper;
 using TestTechnology.Controller.BIZ;
 using TestTechnology.DAL;
-using TestTechnology.DAL.Models;
 using TestTechnology.Shared.DTO;
 
 namespace ConsoleApplication1
@@ -20,7 +19,7 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 ////Task
                 //TestTechnology.DAL.Models.Task task = new TestTechnology.DAL.Models.Task()

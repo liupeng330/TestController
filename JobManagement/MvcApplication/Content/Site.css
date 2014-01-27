@@ -529,15 +529,15 @@ input[type="checkbox"].input-validation-error {
 ----------------------------------------------------------*/
 table {
     border-collapse: collapse;
-    border-spacing: 0;
+    border-spacing: 1em;
     margin-top: 0.75em;
-    border: 0 none;
+    border: 1.5em;
 }
 
 th {
     font-size: 1.2em;
     text-align: left;
-    border: none 0px;
+    border: 1.5px;
     padding-left: 0;
 }
 

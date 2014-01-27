@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TestTechnology.DAL.Models;
 using TestTechnology.Shared.DTO;
 
 namespace TestTechnology.DAL
@@ -10,7 +9,7 @@ namespace TestTechnology.DAL
     {
         public IEnumerable<Client_JobGroup> GetJobGroupsByStatus(string clientId, JobAssignmentStatus status)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var ret = from i
                             in db.Client_JobGroup
@@ -23,7 +22,7 @@ namespace TestTechnology.DAL
 
         public IEnumerable<Job> GetAllJobs(int jobGroupID)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var ret = from i
                     in db.Jobs
@@ -36,15 +35,15 @@ namespace TestTechnology.DAL
 
         public JobGroup GetJobGroup(int jobGroupID)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 return db.JobGroups.SingleOrDefault(i => i.JobGroupID == jobGroupID);
             }
         }
 
-        public IEnumerable<TestTechnology.DAL.Models.Task> GetAllTasksByJobGroupID(int jobGroupID)
+        public IEnumerable<TestTechnology.DAL.Task> GetAllTasksByJobGroupID(int jobGroupID)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var taskGroup = (from i
                     in db.JobGroups
@@ -57,14 +56,14 @@ namespace TestTechnology.DAL
                 }
                 else
                 {
-                    return new List<Models.Task>();
+                    return new List<Task>();
                 }
             }
         }
 
-        public IEnumerable<TestTechnology.DAL.Models.Task> GetAllTasksByTaskGroupID(int taskGroupID)
+        public IEnumerable<TestTechnology.DAL.Task> GetAllTasksByTaskGroupID(int taskGroupID)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var tasks = from i in db.Task_TaskGroup
                             where i.TaskGroupID == taskGroupID
@@ -76,7 +75,7 @@ namespace TestTechnology.DAL
 
         public TaskGroup GetTaskGroupByJobGroupID(int jobGroupID)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 return db.JobGroups.Where(i => i.JobGroupID == jobGroupID).Select(j => j.TaskGroup).SingleOrDefault();
             }
@@ -84,7 +83,7 @@ namespace TestTechnology.DAL
 
         public void UpdateJobAssignmentStatus(int assignmentID, JobAssignmentStatus updateStatus)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var jobAssignment = db.Client_JobGroup.SingleOrDefault(i => i.AssignmentID == assignmentID);
                 if (jobAssignment == null)
@@ -99,7 +98,7 @@ namespace TestTechnology.DAL
 
         public void UpdateJobAssignmentResult(int assignmentID, JobAssignmentResult updateResult)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var jobAssignment = db.Client_JobGroup.SingleOrDefault(i => i.AssignmentID == assignmentID);
                 if (jobAssignment == null)
@@ -115,7 +114,7 @@ namespace TestTechnology.DAL
 
         public void UpdateJobStatus(int jobID, JobStatus updateStatus)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var job = db.Jobs.SingleOrDefault(i => i.JobID == jobID);
                 if (job == null)
@@ -130,7 +129,7 @@ namespace TestTechnology.DAL
 
         public void UpdateJobGroupStatus(int jobGroupID, JobStatus updateStatus)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var jobGroup = db.JobGroups.SingleOrDefault(i => i.JobGroupID == jobGroupID);
                 if (jobGroup == null)
@@ -145,7 +144,7 @@ namespace TestTechnology.DAL
 
         public void UploadJobResult(int jobID, string jobResult)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var job = db.Jobs.SingleOrDefault(i => i.JobID == jobID);
                 if (job == null)
@@ -159,7 +158,7 @@ namespace TestTechnology.DAL
 
         public void UpdateJobEndTime(int jobID, DateTime endTime)
         {
-            using (var db = new TestJobDBContext())
+            using (var db = new TestJobDBEntities())
             {
                 var job = db.Jobs.SingleOrDefault(i => i.JobID == jobID);
                 if (job == null)

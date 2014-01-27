@@ -69,7 +69,17 @@ namespace MvcApplication.Controllers
             {
                 return HttpNotFound();
             }
-            return View(taskgroup);
+
+            //Get all related tasks in this taskgroup
+            var tasks = db.Task_TaskGroup.Where(i => i.TaskGroupID == id).OrderBy(i => i.TaskOrder).Select(i => i.Task);
+            TaskGroupAndAllTasksModel taskGroupAndAllTasksModel = new TaskGroupAndAllTasksModel
+            {
+                TaskGroupID =  id,
+                TaskGroupRelatedTasks = tasks,
+                AllTasks = db.Tasks.ToList(),
+            };
+
+            return View(taskGroupAndAllTasksModel);
         }
 
         //
@@ -110,6 +120,32 @@ namespace MvcApplication.Controllers
         {
             TaskGroup taskgroup = db.TaskGroups.Find(id);
             db.TaskGroups.Remove(taskgroup);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Add(int id, int groupId)
+        {
+            var orderByTaskOrder =
+                db.Task_TaskGroup.Where(i => i.TaskGroupID == groupId).OrderByDescending(i => i.TaskOrder);
+            int order;
+            if(orderByTaskOrder.Any())
+            {
+                order = orderByTaskOrder.ToArray()[0].TaskOrder + 1;
+            }
+            else
+            {
+                order = 1;
+            }
+
+            var task_taskGroup = new Task_TaskGroup
+            {
+                TaskGroupID = groupId,
+                TaskID = id,
+                TaskOrder = order,
+            };
+
+            db.Task_TaskGroup.Add(task_taskGroup);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TestTechnology.DAL.Models;
 using TestTechnology.Shared.DTO;
 
 namespace TestTechnology.DAL
@@ -11,8 +10,8 @@ namespace TestTechnology.DAL
     public interface IJobDataRepository
     {
         IEnumerable<Client_JobGroup> GetJobGroupsByStatus(string clientId, JobAssignmentStatus status);
-        IEnumerable<TestTechnology.DAL.Models.Task> GetAllTasksByJobGroupID(int jobGroupID);
-        IEnumerable<TestTechnology.DAL.Models.Task> GetAllTasksByTaskGroupID(int taskGroupID);
+        IEnumerable<TestTechnology.DAL.Task> GetAllTasksByJobGroupID(int jobGroupID);
+        IEnumerable<TestTechnology.DAL.Task> GetAllTasksByTaskGroupID(int taskGroupID);
         IEnumerable<Job> GetAllJobs(int jobGroupID);
         JobGroup GetJobGroup(int jobGroupID);
         TaskGroup GetTaskGroupByJobGroupID(int jobGroupID);

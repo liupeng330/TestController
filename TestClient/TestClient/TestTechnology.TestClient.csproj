@@ -32,11 +32,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\..\JobService\packages\EntityFramework.6.1.0-alpha1\lib\net45\EntityFramework.dll</HintPath>
+    <Reference Include="AutoMapper">
+      <HintPath>lib\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\..\JobService\packages\EntityFramework.6.1.0-alpha1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="AutomapperHelper">
+      <HintPath>lib\AutomapperHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -47,11 +51,23 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="TestTechnology.Controller.BIZ">
+      <HintPath>lib\TestTechnology.Controller.BIZ.dll</HintPath>
+    </Reference>
     <Reference Include="TestTechnology.Controller.DTO">
       <HintPath>lib\TestTechnology.Controller.DTO.dll</HintPath>
     </Reference>
     <Reference Include="TestTechnology.Controller.Interface">
       <HintPath>lib\TestTechnology.Controller.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="TestTechnology.Controller.Service">
+      <HintPath>lib\TestTechnology.Controller.Service.dll</HintPath>
+    </Reference>
+    <Reference Include="TestTechnology.DAL">
+      <HintPath>lib\TestTechnology.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="TestTechnology.DAL.Model">
+      <HintPath>lib\TestTechnology.DAL.Model.dll</HintPath>
     </Reference>
     <Reference Include="TestTechnology.Shared.DTO">
       <HintPath>lib\TestTechnology.Shared.DTO.dll</HintPath>

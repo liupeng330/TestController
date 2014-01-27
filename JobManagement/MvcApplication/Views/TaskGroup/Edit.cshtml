@@ -1,33 +1,71 @@
-﻿@model MvcApplication.Models.TaskGroup
+﻿@model MvcApplication.Models.TaskGroupAndAllTasksModel
 
 @{
     ViewBag.Title = "Edit";
 }
 
 <h2>Edit</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>TaskName</th>
+        <th>TaskExecuteFilePath</th>
+        <th>TaskArgs</th>
+        <th></th>
+    </tr>
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    @foreach (var item in Model.TaskGroupRelatedTasks)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskExecuteFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskArgs)
+            </td>
+        </tr>
+    }
 
-    <fieldset>
-        <legend>TaskGroup</legend>
+</table>
 
-        @Html.HiddenFor(model => model.TaskGroupID)
+<h2>All Current Tasks</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>TaskName</th>
+        <th>TaskExecuteFilePath</th>
+        <th>TaskArgs</th>
+        <th></th>
+    </tr>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TaskGroupName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TaskGroupName)
-            @Html.ValidationMessageFor(model => model.TaskGroupName)
-        </div>
+    @foreach (var item in Model.AllTasks)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskExecuteFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaskArgs)
+            </td>
+            <td>
+                @Html.ActionLink("Add", "Add", new { id = item.TaskID, groupId = Model.TaskGroupID }) |
+            </td>
+        </tr>
+    }
 
-        <p>
-            <input type="submit" value="Save" />
-        </p>
-    </fieldset>
-}
+</table>
 
 <div>
     @Html.ActionLink("Back to List", "Index")

@@ -14,6 +14,7 @@ namespace MvcApplication.Models
     
     public partial class Task_TaskGroup
     {
+        public int ID { get; set; }
         public int TaskID { get; set; }
         public int TaskGroupID { get; set; }
         public int TaskOrder { get; set; }

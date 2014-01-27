@@ -60,7 +60,7 @@
       <Name>TestTechnology.Controller.DTO</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestTechnology.DAL.Model\TestTechnology.DAL.Model.csproj">
-      <Project>{af982596-168b-4000-84eb-5f6617383371}</Project>
+      <Project>{8829f751-b187-446b-8cc9-6864f1029693}</Project>
       <Name>TestTechnology.DAL.Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestTechnology.DAL\TestTechnology.DAL.csproj">

@@ -25,14 +25,14 @@ namespace TestTechnology.Controller.BIZ
         }
 
         //Get untaken and top jobs, and set it to running, if there is a job that is running on that client, empty array will be returned
-        public bool GetUnTakenTopJobsByClientsID(string clientId, out JobGroup jobGroup, out int assignmentId)
+        public bool GetUnTakenTopJobsByClientsID(string clientId, out TestTechnology.Controller.DTO.JobGroup jobGroup, out int assignmentId)
         {
             //Get running jobs in DB
             if (_jobDataRepository.GetJobGroupsByStatus(clientId, JobAssignmentStatus.Running).Any())
             {
                 //There are jobs running in client, so do not return any jobs to client
                 assignmentId = -1;
-                jobGroup = new JobGroup();
+                jobGroup = new DTO.JobGroup();
                 return false;
             }
 
@@ -41,27 +41,27 @@ namespace TestTechnology.Controller.BIZ
             if (client_job == null)
             {
                 assignmentId = -1;
-                jobGroup = new JobGroup();
+                jobGroup = new DTO.JobGroup();
                 return false;
 
             }
             assignmentId = client_job.AssignmentID;
 
             //Get jobgroup from DB
-            Mapper.CreateMap<TestTechnology.DAL.Models.JobGroup, JobGroup>().ForMember(i => i.Jobs, o => o.Ignore());
-            Mapper.CreateMap<TestTechnology.DAL.Models.TaskGroup, JobGroup>();
+            Mapper.CreateMap<TestTechnology.DAL.JobGroup, DTO.JobGroup>().ForMember(i => i.Jobs, o => o.Ignore());
+            Mapper.CreateMap<TestTechnology.DAL.TaskGroup, DTO.JobGroup>();
 
             var jobGroupInDB = _jobDataRepository.GetJobGroup(client_job.JobGroupID);
             var taskGroupInDB = _jobDataRepository.GetTaskGroupByJobGroupID(client_job.JobGroupID);
 
-            jobGroup = EntityMapper.Map<JobGroup>(jobGroupInDB, taskGroupInDB);
+            jobGroup = EntityMapper.Map<DTO.JobGroup>(jobGroupInDB, taskGroupInDB);
 
             //Get all realted jobs from DB
-            List<Job> jobs = new List<Job>();
+            List<DTO.Job> jobs = new List<DTO.Job>();
             try
             {
-                Mapper.CreateMap<TestTechnology.DAL.Models.Job, Job>();
-                Mapper.CreateMap<TestTechnology.DAL.Models.Task, Job>();
+                Mapper.CreateMap<TestTechnology.DAL.Job, DTO.Job>();
+                Mapper.CreateMap<TestTechnology.DAL.Task, DTO.Job>();
 
                 var jobsInDB = _jobDataRepository.GetAllJobs(client_job.JobGroupID);
                 var tasksInDB = _jobDataRepository.GetAllTasksByJobGroupID(client_job.JobGroupID);
@@ -69,7 +69,7 @@ namespace TestTechnology.Controller.BIZ
                 foreach (var jobInDB in jobsInDB)
                 {
                     var taskInDB = (from i in tasksInDB where i.TaskID == jobInDB.TaskID select i).SingleOrDefault();
-                    var jobForDTO = EntityMapper.Map<Job>(jobInDB, taskInDB);
+                    var jobForDTO = EntityMapper.Map<DTO.Job>(jobInDB, taskInDB);
                     jobs.Add(jobForDTO);
                 }
 
