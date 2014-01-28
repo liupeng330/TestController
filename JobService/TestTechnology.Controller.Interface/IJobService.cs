@@ -36,5 +36,8 @@ namespace TestTechnology.Controller.Interface
 
         [OperationContract]
         void UpdateJobEndTime(int jobId, DateTime endTime);
+
+        [OperationContract]
+        void UpdateClientMachineInfo(string clientID, ClientMachineInfo machineInfo);
     }
 }

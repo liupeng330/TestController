@@ -23,6 +23,7 @@ namespace MvcApplication.Models
         public Nullable<System.DateTime> EndTime { get; set; }
         public string Owner { get; set; }
     
+        public virtual ClientMachineInfo ClientMachineInfo { get; set; }
         public virtual JobGroup JobGroup { get; set; }
     }
 }

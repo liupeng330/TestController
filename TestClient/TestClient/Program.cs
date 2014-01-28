@@ -5,6 +5,7 @@ using System.Threading;
 using TestTechnology.Controller.DTO;
 using TestTechnology.Controller.Interface;
 using TestTechnology.Shared.DTO;
+using TestTechnology.TestClient.Utilities;
 
 namespace TestTechnology.TestClient
 {
@@ -13,6 +14,7 @@ namespace TestTechnology.TestClient
         private readonly static LocalJobManager LocalJobManager = new LocalJobManager();
         private readonly static InstanceContext Callback = new InstanceContext(new LocalJobManager());
         public static readonly DuplexChannelFactory<IJobService> ChannelFactory = new DuplexChannelFactory<IJobService>(Callback, "JobService");
+        private static bool hasCollectedSystemInfo = false;
 
         private static void Main()
         {
@@ -24,9 +26,19 @@ namespace TestTechnology.TestClient
                 throw new Exception("The client id is empty!!");
             }
 
+
             while (true)
             {
                 IJobService jobChannel = ChannelFactory.CreateChannel();
+
+                //Update machin info to DB
+                if (!hasCollectedSystemInfo)
+                {
+                    Console.WriteLine("Start to update client info to DB");
+                    jobChannel.UpdateClientMachineInfo(clientId, SystemInfoHelper.GetOperatingSystemInfo());
+                    hasCollectedSystemInfo = true;
+                }
+
                 int assignmentId = -1;
                 bool jobGroupResult = false;
                 try
@@ -72,7 +84,7 @@ namespace TestTechnology.TestClient
                         jobChannel.UpdateJobAssignmentStatus(assignmentId, JobAssignmentStatus.Completed);
                         Console.WriteLine("Update job assignment id [{0}] status to be completed", assignmentId);
 
-                        jobChannel.UpdateJobAssignmentResult(assignmentId, jobGroupResult?JobAssignmentResult.Pass : JobAssignmentResult.Fail);
+                        jobChannel.UpdateJobAssignmentResult(assignmentId, jobGroupResult ? JobAssignmentResult.Pass : JobAssignmentResult.Fail);
                         Console.WriteLine("Update job assignment id [{0}] result to be " + (jobGroupResult ? "passed" : "failed"), assignmentId);
                     }
                     Thread.Sleep(5000);

@@ -117,5 +117,13 @@ namespace TestTechnology.Controller.BIZ
         {
             _jobDataRepository.UpdateJobEndTime(jobId, endTime);
         }
+
+
+        public void UpdateClientMachineInfo(string clientID, DTO.ClientMachineInfo machineInfo)
+        {
+            Mapper.CreateMap<DTO.ClientMachineInfo, DAL.ClientMachineInfo>();
+            var machinInfoDAL = Mapper.Map<DAL.ClientMachineInfo>(machineInfo);
+            _jobDataRepository.UpdateClientMachineInfo(clientID, machinInfoDAL);
+        }
     }
 }

@@ -7,12 +7,17 @@
       <Schema Namespace="TestJobDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="TestJobDBModelStoreContainer">
           <EntitySet Name="Client_JobGroup" EntityType="TestJobDBModel.Store.Client_JobGroup" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ClientMachineInfo" EntityType="TestJobDBModel.Store.ClientMachineInfo" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Job" EntityType="TestJobDBModel.Store.Job" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="JobGroup" EntityType="TestJobDBModel.Store.JobGroup" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="sysdiagrams" EntityType="TestJobDBModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Task" EntityType="TestJobDBModel.Store.Task" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Task_TaskGroup" EntityType="TestJobDBModel.Store.Task_TaskGroup" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="TaskGroup" EntityType="TestJobDBModel.Store.TaskGroup" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Client_JobGroup_ClientMachineInfo" Association="TestJobDBModel.Store.FK_Client_JobGroup_ClientMachineInfo">
+            <End Role="ClientMachineInfo" EntitySet="ClientMachineInfo" />
+            <End Role="Client_JobGroup" EntitySet="Client_JobGroup" />
+          </AssociationSet>
           <AssociationSet Name="FK_Client_JobGroup_JobGroup" Association="TestJobDBModel.Store.FK_Client_JobGroup_JobGroup">
             <End Role="JobGroup" EntitySet="JobGroup" />
             <End Role="Client_JobGroup" EntitySet="Client_JobGroup" />
@@ -50,6 +55,15 @@
           <Property Name="StartTime" Type="datetime2" />
           <Property Name="EndTime" Type="datetime2" />
           <Property Name="Owner" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ClientMachineInfo">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="OS" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="SystemType" Type="nvarchar" Nullable="false" MaxLength="50" />
+          <Property Name="MachineName" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -108,6 +122,20 @@
           <Property Name="TaskGroupID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="TaskGroupName" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
+        <Association Name="FK_Client_JobGroup_ClientMachineInfo">
+          <End Role="ClientMachineInfo" Type="TestJobDBModel.Store.ClientMachineInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Client_JobGroup" Type="TestJobDBModel.Store.Client_JobGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientMachineInfo">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Client_JobGroup">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Client_JobGroup_JobGroup">
           <End Role="JobGroup" Type="TestJobDBModel.Store.JobGroup" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -199,12 +227,17 @@
       <Schema Namespace="TestJobDBModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TestJobDBEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="Client_JobGroup" EntityType="TestJobDBModel.Client_JobGroup" />
+          <EntitySet Name="ClientMachineInfoes" EntityType="TestJobDBModel.ClientMachineInfo" />
           <EntitySet Name="Jobs" EntityType="TestJobDBModel.Job" />
           <EntitySet Name="JobGroups" EntityType="TestJobDBModel.JobGroup" />
           <EntitySet Name="sysdiagrams" EntityType="TestJobDBModel.sysdiagram" />
           <EntitySet Name="Tasks" EntityType="TestJobDBModel.Task" />
           <EntitySet Name="Task_TaskGroup" EntityType="TestJobDBModel.Task_TaskGroup" />
           <EntitySet Name="TaskGroups" EntityType="TestJobDBModel.TaskGroup" />
+          <AssociationSet Name="FK_Client_JobGroup_ClientMachineInfo" Association="TestJobDBModel.FK_Client_JobGroup_ClientMachineInfo">
+            <End Role="ClientMachineInfo" EntitySet="ClientMachineInfoes" />
+            <End Role="Client_JobGroup" EntitySet="Client_JobGroup" />
+          </AssociationSet>
           <AssociationSet Name="FK_Client_JobGroup_JobGroup" Association="TestJobDBModel.FK_Client_JobGroup_JobGroup">
             <End Role="JobGroup" EntitySet="JobGroups" />
             <End Role="Client_JobGroup" EntitySet="Client_JobGroup" />
@@ -242,7 +275,18 @@
           <Property Name="StartTime" Type="DateTime" Precision="7" />
           <Property Name="EndTime" Type="DateTime" Precision="7" />
           <Property Name="Owner" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="ClientMachineInfo" Relationship="TestJobDBModel.FK_Client_JobGroup_ClientMachineInfo" FromRole="Client_JobGroup" ToRole="ClientMachineInfo" />
           <NavigationProperty Name="JobGroup" Relationship="TestJobDBModel.FK_Client_JobGroup_JobGroup" FromRole="Client_JobGroup" ToRole="JobGroup" />
+        </EntityType>
+        <EntityType Name="ClientMachineInfo">
+          <Key>
+            <PropertyRef Name="ClientID" />
+          </Key>
+          <Property Name="ClientID" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="OS" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="SystemType" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="MachineName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Client_JobGroup" Relationship="TestJobDBModel.FK_Client_JobGroup_ClientMachineInfo" FromRole="ClientMachineInfo" ToRole="Client_JobGroup" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
@@ -312,6 +356,20 @@
           <NavigationProperty Name="JobGroups" Relationship="TestJobDBModel.FK_JobGroup_TaskGroup" FromRole="TaskGroup" ToRole="JobGroup" />
           <NavigationProperty Name="Task_TaskGroup" Relationship="TestJobDBModel.FK_Task_TaskGroup_TaskGroup" FromRole="TaskGroup" ToRole="Task_TaskGroup" />
         </EntityType>
+        <Association Name="FK_Client_JobGroup_ClientMachineInfo">
+          <End Role="ClientMachineInfo" Type="TestJobDBModel.ClientMachineInfo" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Client_JobGroup" Type="TestJobDBModel.Client_JobGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientMachineInfo">
+              <PropertyRef Name="ClientID" />
+            </Principal>
+            <Dependent Role="Client_JobGroup">
+              <PropertyRef Name="ClientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Client_JobGroup_JobGroup">
           <End Role="JobGroup" Type="TestJobDBModel.JobGroup" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -413,6 +471,16 @@
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="Owner" ColumnName="Owner" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientMachineInfoes">
+            <EntityTypeMapping TypeName="TestJobDBModel.ClientMachineInfo">
+              <MappingFragment StoreEntitySet="ClientMachineInfo">
+                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+                <ScalarProperty Name="OS" ColumnName="OS" />
+                <ScalarProperty Name="SystemType" ColumnName="SystemType" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

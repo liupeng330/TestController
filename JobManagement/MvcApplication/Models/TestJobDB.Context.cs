@@ -26,6 +26,7 @@ namespace MvcApplication.Models
         }
     
         public DbSet<Client_JobGroup> Client_JobGroup { get; set; }
+        public DbSet<ClientMachineInfo> ClientMachineInfoes { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<JobGroup> JobGroups { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }

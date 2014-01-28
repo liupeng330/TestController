@@ -170,5 +170,28 @@ namespace TestTechnology.DAL
                 db.SaveChanges();
             }
         }
+
+        public void UpdateClientMachineInfo(string clientID, ClientMachineInfo machineInfo)
+        {
+            using (var db = new TestJobDBEntities())
+            {
+                var machineInfoFromDB =
+                    db.ClientMachineInfoes.SingleOrDefault(
+                        i => i.ClientID.Equals(clientID, StringComparison.OrdinalIgnoreCase));
+                if (machineInfoFromDB == null)
+                {
+                    //Insert machin info 
+                    machineInfo.ClientID = clientID;
+                    db.ClientMachineInfoes.Add(machineInfo);
+                    db.SaveChanges();
+                    return;
+                }
+
+                machineInfoFromDB.OS = machineInfo.OS;
+                machineInfoFromDB.SystemType = machineInfo.SystemType;
+                machineInfoFromDB.MachineName = machineInfo.MachineName;
+                db.SaveChanges();
+            }
+        }
     }
 }

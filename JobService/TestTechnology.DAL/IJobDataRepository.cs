@@ -21,5 +21,6 @@ namespace TestTechnology.DAL
         void UpdateJobEndTime(int jobID, DateTime endTime);
         void UpdateJobGroupStatus(int jobGroupID, JobStatus updateStatus);
         void UploadJobResult(int jobID, string jobResult);
+        void UpdateClientMachineInfo(string clientID, ClientMachineInfo machineInfo);
     }
 }

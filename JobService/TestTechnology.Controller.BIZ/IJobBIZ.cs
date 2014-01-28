@@ -17,5 +17,6 @@ namespace TestTechnology.Controller.BIZ
         void UpdateJobGroupStatus(int jobgroupId, JobStatus updateStatus);
         void UpdateJobAssignmentStatus(int assignmentId, JobAssignmentStatus updateStatus);
         void UpdateJobAssignmentResult(int assignmentId, JobAssignmentResult updateResult);
+        void UpdateClientMachineInfo(string clientID, ClientMachineInfo machineInfo);
     }
 }

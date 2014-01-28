@@ -4,14 +4,16 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c67e4fe25ed3418288ac98690a4cfa50" Name="Diagram1">
-        <EntityTypeShape EntityType="TestJobDBModel.Client_JobGroup" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestJobDBModel.Job" Width="1.5" PointX="8.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestJobDBModel.JobGroup" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+      <Diagram DiagramId="618fc7d4e7ea4c628896d6b2ca0f7584" Name="Diagram1">
+        <EntityTypeShape EntityType="TestJobDBModel.Client_JobGroup" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestJobDBModel.ClientMachineInfo" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestJobDBModel.Job" Width="1.5" PointX="8.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestJobDBModel.JobGroup" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="TestJobDBModel.sysdiagram" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TestJobDBModel.Task" Width="1.5" PointX="0.75" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="TestJobDBModel.Task_TaskGroup" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TestJobDBModel.TaskGroup" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestJobDBModel.TaskGroup" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <AssociationConnector Association="TestJobDBModel.FK_Client_JobGroup_ClientMachineInfo" ManuallyRouted="false" />
         <AssociationConnector Association="TestJobDBModel.FK_Client_JobGroup_JobGroup" ManuallyRouted="false" />
         <AssociationConnector Association="TestJobDBModel.FK_Job_JobGroup" ManuallyRouted="false" />
         <AssociationConnector Association="TestJobDBModel.FK_Job_Task" ManuallyRouted="false" />

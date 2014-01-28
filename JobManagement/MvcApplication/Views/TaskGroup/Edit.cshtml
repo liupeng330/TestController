@@ -1,13 +1,15 @@
-﻿@model MvcApplication.Models.TaskGroupAndAllTasksModel
+﻿@using System.Data
+@model MvcApplication.Models.TaskGroupAndAllTasksModel
 
 @{
     ViewBag.Title = "Edit TaskGroup";
 }
 
-<h2>[@Html.DisplayFor(modelItem =>Model.TaskGroupName)] Edit</h2>
+<h2>TaskGroup [@Html.DisplayFor(modelItem =>Model.TaskGroupName)] Edit</h2>
 <table>
     <tr>
-        <th>ID</th>
+        <th>RelatedID</th>
+        <th>TaskID</th>
         <th>TaskName</th>
         <th>TaskExecuteFilePath</th>
         <th>TaskArgs</th>
@@ -18,16 +20,22 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskID)
+                @Html.DisplayFor(modelItem => item.Task_TaskGroupID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskName)
+                @Html.DisplayFor(modelItem => item.RelatedTask.TaskID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskExecuteFilePath)
+                @Html.DisplayFor(modelItem => item.RelatedTask.TaskName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TaskArgs)
+                @Html.DisplayFor(modelItem => item.RelatedTask.TaskExecuteFilePath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RelatedTask.TaskArgs)
+            </td>
+            <td>
+                @Html.ActionLink("Remove", "Remove", new {relatedId = item.Task_TaskGroupID, groupId = Model.TaskGroupID})
             </td>
         </tr>
     }
@@ -60,7 +68,7 @@
                 @Html.DisplayFor(modelItem => item.TaskArgs)
             </td>
             <td>
-                @Html.ActionLink("Add", "Add", new { id = item.TaskID, groupId = Model.TaskGroupID }) |
+                @Html.ActionLink("Add", "Add", new { id = item.TaskID, groupId = Model.TaskGroupID })
             </td>
         </tr>
     }

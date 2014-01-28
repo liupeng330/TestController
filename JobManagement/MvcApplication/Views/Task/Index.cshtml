@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MvcApplication.Models.Task>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Task Index";
 }
 
-<h2>Index</h2>
+<h2>Task Index</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -36,7 +36,6 @@
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
         </td>
     </tr>

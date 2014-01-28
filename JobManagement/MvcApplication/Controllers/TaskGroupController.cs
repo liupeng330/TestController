@@ -63,7 +63,7 @@ namespace MvcApplication.Controllers
         //
         // GET: /TaskGroup/Edit/5
 
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit(int id) 
         {
             TaskGroup taskgroup = db.TaskGroups.Find(id);
             if (taskgroup == null)
@@ -72,7 +72,13 @@ namespace MvcApplication.Controllers
             }
 
             //Get all related tasks in this taskgroup
-            var tasks = db.Task_TaskGroup.Where(i => i.TaskGroupID == id).OrderBy(i => i.TaskOrder).Select(i => i.Task);
+            var tasks = db.Task_TaskGroup.Where(i => i.TaskGroupID == id)
+                .OrderBy(i => i.TaskOrder)
+                .Select(i => new Task_TaskGroupIDWithTaskInfoModel
+                {
+                    Task_TaskGroupID = i.ID,
+                    RelatedTask = i.Task,
+                });
             TaskGroupAndAllTasksModel taskGroupAndAllTasksModel = new TaskGroupAndAllTasksModel
             {
                 TaskGroupID =  id,
@@ -151,7 +157,21 @@ namespace MvcApplication.Controllers
             db.SaveChanges();
 
             //refresh Edit page for this added task into taskgroup
-            return RedirectToAction("Edit", new {id = groupId});
+            return RedirectToAction("Edit", new {id = groupId, task_taskgroupId = task_taskGroup.ID});
+        }
+
+        public ActionResult Remove(int relatedId, int groupId)
+        {
+            var relatedItemInDB = db.Task_TaskGroup.SingleOrDefault(i => i.ID == relatedId);
+            if (relatedItemInDB == null)
+            {
+                return HttpNotFound();
+            }
+            db.Task_TaskGroup.Remove(relatedItemInDB);
+            db.SaveChanges();
+
+            //refresh Edit page for this added task into taskgroup
+            return RedirectToAction("Edit", new {id = groupId, task_taskgroupId = relatedId});
         }
 
         protected override void Dispose(bool disposing)

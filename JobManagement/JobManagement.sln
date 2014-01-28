@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApplication", "MvcApplic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcApplication.Tests", "MvcApplication.Tests\MvcApplication.Tests.csproj", "{F9B54BA7-6519-4B67-A753-2C844055A53B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{5FC50F1E-B665-4018-BF72-5FF8B00C21C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{F9B54BA7-6519-4B67-A753-2C844055A53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F9B54BA7-6519-4B67-A753-2C844055A53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9B54BA7-6519-4B67-A753-2C844055A53B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FC50F1E-B665-4018-BF72-5FF8B00C21C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FC50F1E-B665-4018-BF72-5FF8B00C21C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FC50F1E-B665-4018-BF72-5FF8B00C21C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC50F1E-B665-4018-BF72-5FF8B00C21C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
