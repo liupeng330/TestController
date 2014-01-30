@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MvcApplication.Models.ClientMachineInfo>
+
+@{
+    ViewBag.Title = "MachinInfo";
+}
+
+<h2>MachineInfo</h2>
+
+<table>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.ClientID)</th>
+        <th>@Html.DisplayNameFor(model => model.OS)</th>
+        <th>@Html.DisplayNameFor(model => model.SystemType)</th>
+        <th>@Html.DisplayNameFor(model => model.MachineName)</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineName)
+            </td>
+        </tr>
+    }
+
+</table>

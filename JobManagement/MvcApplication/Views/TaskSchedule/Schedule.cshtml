@@ -1,0 +1,38 @@
+﻿@model MvcApplication.Models.TaskScheduleModel
+
+@{
+    ViewBag.Title = "Task Schedule";
+}
+
+<h2>Task Schedule</h2>
+
+<table>
+    <tr>
+        <th>ClientID</th>
+        <th>OS</th>
+        <th>SystemType</th>
+        <th>MachineName</th>
+    </tr>
+
+    @foreach (var item in Model.MachinInfos)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClientID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OS)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MachineName)
+            </td>
+            <td>
+                @Html.ActionLink("Schedule", "Schedule", new {taskGroupID = Model.TaskGroupID, clientID = item.ClientID})
+            </td>
+        </tr>
+    }
+
+</table>
