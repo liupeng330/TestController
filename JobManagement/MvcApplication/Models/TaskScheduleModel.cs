@@ -9,6 +9,8 @@ namespace MvcApplication.Models
     public class TaskScheduleModel
     {
         public int TaskGroupID { get; set; }
-        public IEnumerable<ClientMachineInfo>  MachinInfos { get; set; }
+        public IEnumerable<ClientMachineScheduleModel>  MachineScheduleModels { get; set; }
+        public string Owner { get; set; }
+        public string SelectedClientID { get; set; }
     }
 }

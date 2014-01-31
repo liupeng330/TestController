@@ -193,5 +193,51 @@ namespace TestTechnology.DAL
                 db.SaveChanges();
             }
         }
+
+
+        public void UpdateJobStartTime(int jobID, DateTime startTime)
+        {
+            using (var db = new TestJobDBEntities())
+            {
+                var job = db.Jobs.SingleOrDefault(i => i.JobID == jobID);
+                if (job == null)
+                {
+                    throw new ArgumentNullException("job");
+                }
+
+                job.EndTime = startTime;
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateJobGroupStartTime(int jobGroupID, DateTime startTime)
+        {
+            using (var db = new TestJobDBEntities())
+            {
+                var job = db.JobGroups.SingleOrDefault(i => i.JobGroupID == jobGroupID);
+                if (job == null)
+                {
+                    throw new ArgumentNullException("jobgroup");
+                }
+
+                job.EndTime = startTime;
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdateJobGroupEndTime(int jobGroupID, DateTime endTime)
+        {
+            using (var db = new TestJobDBEntities())
+            {
+                var job = db.JobGroups.SingleOrDefault(i => i.JobGroupID == jobGroupID);
+                if (job == null)
+                {
+                    throw new ArgumentNullException("jobgroup");
+                }
+
+                job.EndTime = endTime;
+                db.SaveChanges();
+            }
+        }
     }
 }

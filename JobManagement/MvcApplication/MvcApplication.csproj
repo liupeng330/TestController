@@ -198,6 +198,7 @@
     <Compile Include="Models\ClientMachineInfo.cs">
       <DependentUpon>TestJobDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientMachineScheduleModel.cs" />
     <Compile Include="Models\Client_JobGroup.cs">
       <DependentUpon>TestJobDB.tt</DependentUpon>
     </Compile>

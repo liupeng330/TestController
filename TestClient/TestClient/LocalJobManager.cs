@@ -44,6 +44,9 @@ namespace TestTechnology.TestClient
             bool jobgroupResult = true;
             try
             {
+                //Update jobgroup start time
+                jobChannel.UpdateJobGroupStartTime(jobGroup.JobGroupID, DateTime.Now);
+
                 var jobArray = jobGroup.Jobs.ToArray();
                 for (int i = 0; i < jobArray.Length; i++)
                 {
@@ -68,6 +71,8 @@ namespace TestTechnology.TestClient
                     }
                 }
 
+                //Update jobgroup endtim
+                jobChannel.UpdateJobGroupEndTime(jobGroup.JobGroupID, DateTime.Now);
                 //Update jobgroup status
                 jobChannel.UpdateJobGroupStatus(jobGroup.JobGroupID, jobgroupResult ? JobStatus.Pass : JobStatus.Fail);
             }
@@ -88,6 +93,12 @@ namespace TestTechnology.TestClient
         public bool DoJob(Job job)
         {
             Console.WriteLine(job.ToString());
+
+            //Update job start time
+            IJobService jobChannel = Program.ChannelFactory.CreateChannel();
+            jobChannel.UpdateJobStartTime(job.JobID, DateTime.Now);
+
+            //Verify if execute file path of job exist or not
             if (!File.Exists(job.TaskExecuteFilePath))
             {
                 Console.WriteLine("The execute file path {0} doesn't exist!!", job.TaskExecuteFilePath);
@@ -104,7 +115,6 @@ namespace TestTechnology.TestClient
             Console.WriteLine("Job result is " + isJobPassed);
 
             //Update job status to DB
-            IJobService jobChannel = Program.ChannelFactory.CreateChannel();
             jobChannel.UpdateJobStatus(job.JobID, isJobPassed? JobStatus.Pass : JobStatus.Fail);
             jobChannel.UploadJobResult(job.JobID, outputResult);
             jobChannel.UpdateJobEndTime(job.JobID, DateTime.Now);

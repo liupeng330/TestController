@@ -6,6 +6,24 @@
 
 <h2>Task Schedule</h2>
 
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <th>Client ID</th>
+            <th>Owner</th>
+        </tr>
+        <tr>
+            <td>
+                @Html.EditorFor(modelItem => Model.SelectedClientID)
+            </td>
+            <td>
+                @Html.EditorFor(modelItem => Model.Owner)
+            </td>
+            <tr>
+    </table>
+    <input type="submit" value="Schedule" />
+}
 <table>
     <tr>
         <th>ClientID</th>
@@ -13,26 +31,25 @@
         <th>SystemType</th>
         <th>MachineName</th>
     </tr>
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
 
-    @foreach (var item in Model.MachinInfos)
+
+    @for (int i = 0; i < Model.MachineScheduleModels.Count(); i++)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientID)
+                @Html.DisplayFor(modelItem => Model.MachineScheduleModels.ToArray()[i].ClientID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.OS)
+                @Html.DisplayFor(modelItem => Model.MachineScheduleModels.ToArray()[i].OS)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SystemType)
+                @Html.DisplayFor(modelItem => Model.MachineScheduleModels.ToArray()[i].SystemType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MachineName)
-            </td>
-            <td>
-                @Html.ActionLink("Schedule", "Schedule", new {taskGroupID = Model.TaskGroupID, clientID = item.ClientID})
+                @Html.DisplayFor(modelItem => Model.MachineScheduleModels.ToArray()[i].MachineName)
             </td>
         </tr>
     }
-
 </table>

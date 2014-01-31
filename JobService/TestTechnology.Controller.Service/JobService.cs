@@ -70,5 +70,20 @@ namespace TestTechnology.Controller.Service
         {
             _jobBiz.UpdateClientMachineInfo(clientID, machineInfo);
         }
+
+        public void UpdateJobStartTime(int jobId, DateTime startTime)
+        {
+            _jobBiz.UpdateJobStartTime(jobId, startTime);
+        }
+
+        public void UpdateJobGroupEndTime(int jobGroupId, DateTime endTime)
+        {
+            _jobBiz.UpdateJobGroupEndTime(jobGroupId, endTime);
+        }
+
+        public void UpdateJobGroupStartTime(int jobGroupId, DateTime startTime)
+        {
+            _jobBiz.UpdateJobGroupStartTime(jobGroupId, startTime);
+        }
     }
 }

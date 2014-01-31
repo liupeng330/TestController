@@ -18,9 +18,12 @@ namespace TestTechnology.DAL
         void UpdateJobAssignmentStatus(int assignmentID, JobAssignmentStatus updateStatus);
         void UpdateJobAssignmentResult(int assignmentID, JobAssignmentResult updateResult);
         void UpdateJobStatus(int jobID, JobStatus updateStatus);
+        void UpdateJobStartTime(int jobID, DateTime startTime);
         void UpdateJobEndTime(int jobID, DateTime endTime);
         void UpdateJobGroupStatus(int jobGroupID, JobStatus updateStatus);
         void UploadJobResult(int jobID, string jobResult);
         void UpdateClientMachineInfo(string clientID, ClientMachineInfo machineInfo);
+        void UpdateJobGroupStartTime(int jobGroupID, DateTime startTime);
+        void UpdateJobGroupEndTime(int jobGroupID, DateTime endTime);
     }
 }

@@ -125,5 +125,20 @@ namespace TestTechnology.Controller.BIZ
             var machinInfoDAL = Mapper.Map<DAL.ClientMachineInfo>(machineInfo);
             _jobDataRepository.UpdateClientMachineInfo(clientID, machinInfoDAL);
         }
+
+        public void UpdateJobStartTime(int jobId, DateTime startTime)
+        {
+            _jobDataRepository.UpdateJobStartTime(jobId, startTime);
+        }
+
+        public void UpdateJobGroupStartTime(int jobGroupId, DateTime startTime)
+        {
+            _jobDataRepository.UpdateJobGroupStartTime(jobGroupId, startTime);
+        }
+
+        public void UpdateJobGroupEndTime(int jobGroupId, DateTime endTime)
+        {
+            _jobDataRepository.UpdateJobGroupEndTime(jobGroupId, endTime);
+        }
     }
 }

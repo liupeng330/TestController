@@ -16,7 +16,7 @@ namespace MvcApplication
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "TaskGroup", action = "Index", id = UrlParameter.Optional }
+                defaults: new { controller = "TaskAssignment", action = "Index", id = UrlParameter.Optional }
             );
         }
     }
