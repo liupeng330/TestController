@@ -44,6 +44,8 @@ namespace TestTechnology.TestClient
             bool jobgroupResult = true;
             try
             {
+                //Update jobgroup status to running
+                jobChannel.UpdateJobGroupStatus(jobGroup.JobGroupID, JobStatus.Running);
                 //Update jobgroup start time
                 jobChannel.UpdateJobGroupStartTime(jobGroup.JobGroupID, DateTime.Now);
 
@@ -71,7 +73,7 @@ namespace TestTechnology.TestClient
                     }
                 }
 
-                //Update jobgroup endtim
+                //Update jobgroup endtime
                 jobChannel.UpdateJobGroupEndTime(jobGroup.JobGroupID, DateTime.Now);
                 //Update jobgroup status
                 jobChannel.UpdateJobGroupStatus(jobGroup.JobGroupID, jobgroupResult ? JobStatus.Pass : JobStatus.Fail);
@@ -94,8 +96,10 @@ namespace TestTechnology.TestClient
         {
             Console.WriteLine(job.ToString());
 
-            //Update job start time
             IJobService jobChannel = Program.ChannelFactory.CreateChannel();
+            //Update job status to running
+            jobChannel.UpdateJobStatus(job.JobID, JobStatus.Running);
+            //Update job start time
             jobChannel.UpdateJobStartTime(job.JobID, DateTime.Now);
 
             //Verify if execute file path of job exist or not

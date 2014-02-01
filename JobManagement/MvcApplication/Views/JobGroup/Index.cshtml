@@ -1,0 +1,100 @@
+﻿@model MvcApplication.Models.JobGroup
+
+@{
+    ViewBag.Title = "JobGroup Index";
+}
+
+<h2>JobGroup Index</h2>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.JobGroupID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th></th>
+    </tr>
+
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.JobGroupID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => modelItem.EndTime)
+        </td>
+        <td>
+            @if (Model.Status == 1)
+            {
+                <span>Running</span>
+            }
+            @if (Model.Status == 2)
+            {
+                <span>Pass</span>
+            }
+            @if (Model.Status == 3)
+            {
+                <span>Fail</span>
+            }
+            @if (Model.Status == 4)
+            {
+                <span>NotRun</span>
+            }
+        </td>
+    </tr>
+</table>
+
+
+<h2>Jobs Index</h2>
+
+<table>
+    <tr>
+        <th>JobID</th>
+        <th>StartTime</th>
+        <th>EndTime</th>
+        <th>Status</th>
+    </tr>
+
+    @foreach (var job in Model.Jobs)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => job.JobID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => job.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => job.EndTime)
+            </td>
+            <td>
+            @if (job.Status == 1)
+            {
+                <span>Running</span>
+            }
+            @if (job.Status == 2)
+            {
+                <span>Pass</span>
+            }
+            @if (job.Status == 3)
+            {
+                <span>Fail</span>
+            }
+            @if (job.Status == 4)
+            {
+                <span>NotRun</span>
+            }
+            </td>
+        </tr>
+    }
+</table>

@@ -186,6 +186,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\JobGroupController.cs" />
     <Compile Include="Controllers\TaskAssignmentController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\TaskGroupController.cs" />
@@ -368,6 +369,7 @@
     <Content Include="Views\TaskAssignment\Index.cshtml" />
     <Content Include="Views\TaskSchedule\Index.cshtml" />
     <Content Include="Views\TaskSchedule\Schedule.cshtml" />
+    <Content Include="Views\JobGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

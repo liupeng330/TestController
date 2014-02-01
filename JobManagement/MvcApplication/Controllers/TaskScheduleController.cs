@@ -53,7 +53,7 @@ namespace MvcApplication.Controllers
 
             //1. Create jobgroup entry related to taskgroup id in DB
             JobGroup jobGroup = new JobGroup();
-            jobGroup.Status = (int)JobStatus.Running;
+            jobGroup.Status = (int)JobStatus.NotRun;
             jobGroup.TaskGroupID = model.TaskGroupID;
 
             db.JobGroups.Add(jobGroup);
