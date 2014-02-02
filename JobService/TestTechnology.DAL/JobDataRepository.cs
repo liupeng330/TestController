@@ -205,7 +205,7 @@ namespace TestTechnology.DAL
                     throw new ArgumentNullException("job");
                 }
 
-                job.EndTime = startTime;
+                job.StartTime = startTime;
                 db.SaveChanges();
             }
         }
@@ -220,7 +220,7 @@ namespace TestTechnology.DAL
                     throw new ArgumentNullException("jobgroup");
                 }
 
-                job.EndTime = startTime;
+                job.StartTime = startTime;
                 db.SaveChanges();
             }
         }

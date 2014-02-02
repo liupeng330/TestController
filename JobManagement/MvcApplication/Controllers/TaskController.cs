@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -52,7 +53,15 @@ namespace MvcApplication.Controllers
             if (ModelState.IsValid)
             {
                 db.Tasks.Add(task);
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+
+                }
+                catch (DbEntityValidationException e)
+                {
+                    
+                }
                 return RedirectToAction("Index");
             }
 

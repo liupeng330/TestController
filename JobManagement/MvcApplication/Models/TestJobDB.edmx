@@ -332,7 +332,7 @@
           <Property Name="TaskID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
           <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
           <Property Name="TaskExecuteFilePath" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="TaskArgs" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TaskArgs" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
           <NavigationProperty Name="Jobs" Relationship="TestJobDBModel.FK_Job_Task" FromRole="Task" ToRole="Job" />
           <NavigationProperty Name="Task_TaskGroup" Relationship="TestJobDBModel.FK_Task_TaskGroup_Task" FromRole="Task" ToRole="Task_TaskGroup" />
         </EntityType>

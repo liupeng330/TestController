@@ -63,6 +63,7 @@
         <th>StartTime</th>
         <th>EndTime</th>
         <th>Status</th>
+        <th>ResultInfo</th>
     </tr>
 
     @foreach (var job in Model.Jobs)
@@ -94,6 +95,9 @@
             {
                 <span>NotRun</span>
             }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => job.ResultInfo)
             </td>
         </tr>
     }
